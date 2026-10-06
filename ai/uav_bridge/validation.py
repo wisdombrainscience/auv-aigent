@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 from typing import Any, Mapping
 
 from ai.contracts.validation_result import (
@@ -16,6 +17,11 @@ from user_interface.policy import load_input_policy
 BRIDGE_VALIDATION_CONTRACT_VERSION = "1.0"
 
 MISSION_INPUT_POLICY_REL = Path("config/input_policy.yaml")
+
+# U11.3 security hardening: scenario IDs cross into AttemptEvidence path
+# construction in the existing runtime, so the bridge must admit only one
+# portable filesystem-safe path segment before U11.6 can execute.
+_SAFE_SCENARIO_ID_RE = re.compile(r"^[A-Za-z0-9_-][A-Za-z0-9._-]{0,127}$")
 
 _MISSION_KEYS = frozenset(
     {
@@ -250,6 +256,28 @@ def validate_bridge_proposal(
             "u11_3.execution_scope",
             field="execution_scope",
             details={"observed": "SIMULATION_ONLY"},
+        )
+    )
+
+    if _SAFE_SCENARIO_ID_RE.fullmatch(proposal.scenario_id) is None:
+        checks.append(
+            _fail(
+                "u11_3.scenario_path_segment",
+                field="scenario_id",
+                reason=(
+                    "scenario_id must be one filesystem-safe path segment before "
+                    "runtime evidence creation"
+                ),
+                details={"observed": proposal.scenario_id},
+            )
+        )
+        return ValidationResult.from_checks(checks)
+
+    checks.append(
+        _pass(
+            "u11_3.scenario_path_segment",
+            field="scenario_id",
+            details={"policy": "single_safe_path_segment"},
         )
     )
 

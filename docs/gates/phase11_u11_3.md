@@ -7,6 +7,7 @@ Status: CANDIDATE until target apply, full regression, and acceptance probe pass
 U11.3 adds deterministic validation at the UAV Bridge boundary. It validates:
 
 - `SIMULATION_ONLY` execution scope;
+- filesystem-safe single-segment `scenario_id` before runtime evidence path construction;
 - strict `MISSION-001` mission envelope and mapped step contracts;
 - proposal mission ID consistency with the embedded mission payload;
 - the existing deterministic `src.mission.model.MissionPlan` contract;

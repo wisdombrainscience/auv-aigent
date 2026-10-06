@@ -3,8 +3,8 @@
 U11.1 defines the simulation proposal data contract. U11.2 adds deterministic
 Project State -> MISSION-001 mapping. U11.3 adds deterministic bridge
 validation. U11.4 adds an explicit deny-by-default capability allowlist. U11.5
-adds an explicit deny-by-default mission allowlist. Later U11.x gates own runtime
-invocation and UAV-run linkage.
+adds an explicit deny-by-default mission allowlist. U11.6 invokes the existing
+mission runtime only after authorization. U11.7 owns UAV-run linkage.
 """
 
 from ai.uav_bridge.proposal import (
@@ -34,6 +34,12 @@ from ai.uav_bridge.authorization import (
     MISSION_ALLOWLIST_CONTRACT_VERSION,
     authorize_bridge_capabilities,
     authorize_bridge_mission,
+)
+
+from ai.uav_bridge.runtime import (
+    BridgeRuntimeInvocationDeniedError,
+    RUNTIME_INVOCATION_CONTRACT_VERSION,
+    invoke_existing_runtime,
 )
 
 from ai.uav_bridge.mapping import (
@@ -74,4 +80,7 @@ __all__ = [
     "MISSION_ALLOWLIST_CONTRACT_VERSION",
     "authorize_bridge_capabilities",
     "authorize_bridge_mission",
+    "BridgeRuntimeInvocationDeniedError",
+    "RUNTIME_INVOCATION_CONTRACT_VERSION",
+    "invoke_existing_runtime",
 ]

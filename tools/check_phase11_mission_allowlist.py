@@ -136,7 +136,7 @@ def main() -> int:
         "policy=EXPLICIT_STATIC deny_by_default=PASS "
         "mission_001=ALLOW unknown_mission=DENY "
         "capability_authorization=REQUIRED_U11_4 "
-        "runtime_invocation=reserved_for_U11_6 "
+        "runtime_invocation=active_U11_6 "
         "uav_run_link=reserved_for_U11_7 persistence=none provider_calls=none "
         "px4_access=none verdict_authority=independent_verifier "
         "phase11=pending cp9=pending"
