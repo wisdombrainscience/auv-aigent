@@ -119,12 +119,42 @@ def test_contract_and_nominal_bridge_validation_pass():
     assert result.overall is ValidationStatus.PASS
     assert [item.check_id for item in result.checks] == [
         "u11_3.execution_scope",
+        "u11_3.scenario_path_segment",
         "u11_3.mission_contract",
         "u11_3.runtime_policy",
         "u11_3.permitted_region",
     ]
     assert check(result, "u11_3.permitted_region").details["targets_checked"] == 5
 
+
+
+def test_scenario_id_must_be_one_safe_path_segment():
+    unsafe = (
+        "../../escaped",
+        "/tmp/escaped",
+        "nested/scenario",
+        r"nested\scenario",
+        ".",
+        "..",
+        "line\nbreak",
+        "contains space",
+    )
+    for scenario_id in unsafe:
+        raw = proposal().to_dict()
+        raw["scenario_id"] = scenario_id
+        result = validate_bridge_proposal(PROJECT, parse_simulation_proposal(raw))
+        assert result.overall is ValidationStatus.FAIL
+        failed = check(result, "u11_3.scenario_path_segment")
+        assert failed.status is ValidationStatus.FAIL
+        assert "filesystem-safe path segment" in (failed.reason or "")
+
+
+def test_scenario_id_safe_segment_variants_pass():
+    for scenario_id in ("MISSION-DEMO", "mission_01", "A.B-C_1"):
+        raw = proposal().to_dict()
+        raw["scenario_id"] = scenario_id
+        result = validate_bridge_proposal(PROJECT, parse_simulation_proposal(raw))
+        assert result.overall is ValidationStatus.PASS
 
 def test_out_of_region_waypoint_fails_closed():
     result = validate_bridge_proposal(

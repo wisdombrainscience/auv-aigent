@@ -91,7 +91,20 @@ def main() -> int:
     assert BRIDGE_VALIDATION_CONTRACT_VERSION == "1.0"
     nominal = validate_bridge_proposal(ROOT, parse_simulation_proposal(raw_proposal()))
     assert nominal.overall is ValidationStatus.PASS
-    assert len(nominal.checks) == 4
+    assert len(nominal.checks) == 5
+
+    unsafe_raw = raw_proposal()
+    unsafe_raw["scenario_id"] = "../../escaped"
+    unsafe = validate_bridge_proposal(
+        ROOT,
+        parse_simulation_proposal(unsafe_raw),
+    )
+    assert unsafe.overall is ValidationStatus.FAIL
+    assert any(
+        check.check_id == "u11_3.scenario_path_segment"
+        and check.status is ValidationStatus.FAIL
+        for check in unsafe.checks
+    )
 
     rejected = validate_bridge_proposal(
         ROOT,
@@ -105,11 +118,11 @@ def main() -> int:
     )
 
     print(
-        "BRIDGE_VALIDATION=PASS contract_version=1.0 checks=4 "
-        "execution_scope=SIMULATION_ONLY mission_contract=PASS "
+        "BRIDGE_VALIDATION=PASS contract_version=1.0 checks=5 "
+        "execution_scope=SIMULATION_ONLY scenario_path=SAFE_SEGMENT traversal=DENY mission_contract=PASS "
         "runtime_policy=CANONICAL permitted_region=PASS out_of_region=FAIL_CLOSED "
         "authorization=capability_allowlist_active capability_allowlist=active_U11_4 "
-        "mission_allowlist=active_U11_5 runtime_invocation=reserved_for_U11_6 "
+        "mission_allowlist=active_U11_5 runtime_invocation=active_U11_6 "
         "uav_run_link=reserved_for_U11_7 persistence=none provider_calls=none "
         "px4_access=none verdict_authority=independent_verifier "
         "phase11=pending cp9=pending"

@@ -84,7 +84,7 @@ def main() -> int:
         "source_artifacts=APPROVED_CURRENT deterministic=PASS "
         "mission=MISSION-001 frame=LOCAL_NED altitude_conversion=PASS "
         "bridge_validation=active_U11_3 capability_allowlist=active_U11_4 "
-        "mission_allowlist=active_U11_5 runtime_invocation=reserved_for_U11_6 "
+        "mission_allowlist=active_U11_5 runtime_invocation=active_U11_6 "
         "uav_run_link=reserved_for_U11_7 persistence=none provider_calls=none "
         "px4_access=none phase11=pending cp9=pending"
     )

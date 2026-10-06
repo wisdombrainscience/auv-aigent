@@ -16,6 +16,8 @@ SimulationProposal
     ↓
 SIMULATION_ONLY check
     ↓
+scenario_id safe path-segment check
+    ↓
 strict MISSION-001 bridge contract
     ↓
 existing MissionPlan parser
@@ -28,6 +30,8 @@ ValidationResult (PASS / FAIL)
 ```
 
 ## Canonical policy source
+
+Before any runtime handoff, U11.3 also requires `scenario_id` to be a single portable filesystem-safe segment (`A-Z`, `a-z`, `0-9`, `_`, `-`, `.`, with a non-dot first character). This prevents path traversal because the existing runtime uses the scenario ID in evidence paths.
 
 U11.3 does not duplicate numeric region limits. It loads:
 
