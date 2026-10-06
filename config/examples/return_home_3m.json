@@ -1,0 +1,9 @@
+{
+  "task_id": "RETURN-HOME-001",
+  "frame": "LOCAL_NED",
+  "home_position_m": [0.0, 0.0],
+  "return_altitude_m": 3.0,
+  "horizontal_tolerance_m": 0.5,
+  "altitude_tolerance_m": 0.5,
+  "timeout_s": 30.0
+}

@@ -1,0 +1,151 @@
+spec_id: RETURN-HOME-001
+version: "1.0.0"
+status: frozen
+module: ReturnHomeModule
+capability: return_home
+
+purpose: >-
+  Return an already-airborne simulated UAV to a declared LOCAL_NED home
+  horizontal anchor at a requested positive-up return altitude. This capability
+  intentionally does not land; LAND-001 owns touchdown behavior.
+
+coordinate_convention:
+  frame: LOCAL_NED
+  measured_position: [north_m, east_m, down_m]
+  home_position_m: [north_m, east_m]
+  return_altitude_m: >-
+    Positive-up operator-facing altitude. The commanded LOCAL_NED target uses
+    z = -return_altitude_m.
+
+input:
+  user_provided:
+    task_id:
+      type: string
+      required: true
+    scenario_id:
+      type: string
+      required: false
+    frame:
+      type: string
+      required: true
+      allowed_values:
+        - LOCAL_NED
+    home_position_m:
+      type: array
+      length: 2
+      item_type: number
+      finite: true
+      required: true
+    return_altitude_m:
+      type: number
+      finite: true
+      exclusive_minimum: 0
+      required: true
+    horizontal_tolerance_m:
+      type: number
+      finite: true
+      exclusive_minimum: 0
+      required: true
+    altitude_tolerance_m:
+      type: number
+      finite: true
+      exclusive_minimum: 0
+      required: true
+    timeout_s:
+      type: number
+      finite: true
+      exclusive_minimum: 0
+      required: true
+
+  system_observed:
+    current_position:
+      source: telemetry
+      user_settable: false
+    vehicle_state:
+      source: telemetry
+      user_settable: false
+    airborne_state:
+      source: telemetry
+      user_settable: false
+    localization_valid:
+      source: telemetry
+      user_settable: false
+    connection_state:
+      source: telemetry
+      user_settable: false
+
+preconditions:
+  connected: true
+  airborne: true
+  localization_valid: true
+  outside_home_horizontal_tolerance: true
+
+output:
+  fields:
+    task_id: string
+    status: string
+    home_position_m: array[2]
+    return_altitude_m: number
+    start_position: array[3]
+    final_position: array[3]
+    horizontal_error_m: number
+    altitude_error_m: number
+    elapsed_time_s: number
+
+failure_codes:
+  - INVALID_INPUT
+  - PRECONDITION_FAILED
+  - UNSUPPORTED_FRAME
+  - LOCALIZATION_LOST
+  - TIMEOUT
+  - EXECUTION_ERROR
+  - VERIFICATION_FAILED
+
+acceptance:
+  authoritative_verifier: independent_python_verifier
+  checks:
+    home_horizontal:
+      rule: euclidean_xy(final_xy, input.home_position_m) <= input.horizontal_tolerance_m
+    return_altitude:
+      rule: abs((-final_z) - input.return_altitude_m) <= input.altitude_tolerance_m
+    airborne:
+      rule: final_vehicle_state == AIRBORNE
+    return_transition:
+      rule: >-
+        initial_home_distance_m > input.horizontal_tolerance_m &&
+        final_home_distance_m <= input.horizontal_tolerance_m
+    timeout:
+      rule: elapsed_time_s <= input.timeout_s
+    telemetry:
+      rule: telemetry_exists && timestamps_valid && localization_valid
+  overall_rule: all_checks_pass
+  forbidden_acceptance_source:
+    - module_output.status
+    - ai_agent_self_assessment
+
+evidence_contract:
+  required:
+    - raw_user_input.json
+    - input.json
+    - changed_files.json
+    - telemetry.csv
+    - events.jsonl
+    - module_output.json
+    - lifecycle.json
+    - verification.json
+    - metadata.json
+  telemetry_minimum_fields:
+    - timestamp
+    - x
+    - y
+    - z
+    - vx
+    - vy
+    - vz
+    - vehicle_state
+    - localization_valid
+
+immutability:
+  after_experiment_start: true
+  ai_may_modify: false
+  recovery_agent_may_modify: false

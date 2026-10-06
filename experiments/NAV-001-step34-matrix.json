@@ -1,0 +1,67 @@
+{
+  "task": "NAV-001",
+  "step": 34,
+  "scope": "PX4_SITL_SIMULATION_ONLY",
+  "frame": "LOCAL_NED",
+  "position_tolerance_m": 0.5,
+  "timeout_s": 30.0,
+  "fixture": {
+    "expected_start": [
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "fresh_sitl_required_per_scenario": true,
+    "clean_start_required": true
+  },
+  "scenarios": [
+    {
+      "id": "S01_EAST_SHORT",
+      "target_position_m": [
+        5.0,
+        0.0,
+        -3.0
+      ]
+    },
+    {
+      "id": "S02_NORTH_SHORT",
+      "target_position_m": [
+        0.0,
+        5.0,
+        -3.0
+      ]
+    },
+    {
+      "id": "S03_WEST_SHORT",
+      "target_position_m": [
+        -5.0,
+        0.0,
+        -3.0
+      ]
+    },
+    {
+      "id": "S04_DIAGONAL_NE",
+      "target_position_m": [
+        5.0,
+        5.0,
+        -3.0
+      ]
+    },
+    {
+      "id": "S05_DIAGONAL_SW",
+      "target_position_m": [
+        -5.0,
+        -5.0,
+        -3.0
+      ]
+    },
+    {
+      "id": "S06_REFERENCE_LONG",
+      "target_position_m": [
+        10.0,
+        5.0,
+        -3.0
+      ]
+    }
+  ]
+}

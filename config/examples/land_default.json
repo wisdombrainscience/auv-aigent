@@ -1,0 +1,7 @@
+{
+  "task_id": "LAND-001",
+  "frame": "LOCAL_NED",
+  "ground_altitude_tolerance_m": 0.5,
+  "horizontal_tolerance_m": 1.0,
+  "timeout_s": 30.0
+}

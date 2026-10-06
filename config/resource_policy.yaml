@@ -1,0 +1,45 @@
+version: 1
+
+# Hard guard for one runtime capability execution. Longer experiments can use
+# a deliberately different policy rather than an accidental huge timeout.
+max_timeout_s: 300
+
+memory:
+  # Only active/recent HTTP job metadata is kept in RAM. Historical metadata
+  # lives in SQLite and raw evidence stays on disk.
+  max_in_memory_runs: 64
+
+telemetry:
+  # Keep verifier evidence at 10 Hz. UI traffic is separately downsampled and
+  # transferred incrementally, so verifier fidelity is not reduced.
+  rate_hz: 10
+  live_buffer_points: 300
+  flush_every_samples: 5
+
+storage:
+  max_runs_size_mb: 5120
+  min_free_disk_mb: 1024
+
+runtime:
+  # Resource status no longer walks the whole runs tree on every browser poll.
+  storage_status_cache_s: 5
+
+network:
+  # Browser receives only telemetry added since the previous poll. JSON bodies
+  # above this size are gzip-compressed when the client supports it.
+  telemetry_batch_limit: 120
+  single_flight_poll_ms: 750
+  mission_poll_ms: 500
+  resource_poll_s: 15
+  json_gzip_min_bytes: 2048
+
+ui:
+  history_page_size: 50
+
+retention:
+  # Retention is manual/safe by default: `./uavctl storage cleanup --dry-run`
+  # then `--apply`. Pinned attempts are never removed.
+  pass_days: 30
+  fail_days: 90
+  incomplete_days: 7
+  keep_latest_per_scenario: 20

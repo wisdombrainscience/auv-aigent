@@ -1,0 +1,60 @@
+{
+  "mission_id": "MISSION-001",
+  "frame": "LOCAL_NED",
+  "continuity_tolerance_m": 1.0,
+  "terminal_home_position_m": [0.0, 0.0],
+  "terminal_home_tolerance_m": 1.0,
+  "steps": [
+    {
+      "step_id": "takeoff",
+      "capability_id": "TAKEOFF-001",
+      "post_action": "hold",
+      "input": {
+        "task_id": "TAKEOFF-001",
+        "frame": "LOCAL_NED",
+        "target_altitude_m": 3.0,
+        "altitude_tolerance_m": 0.5,
+        "horizontal_tolerance_m": 1.0,
+        "timeout_s": 30.0
+      }
+    },
+    {
+      "step_id": "outbound",
+      "capability_id": "NAV-001",
+      "post_action": "hold",
+      "input": {
+        "task_id": "NAV-001",
+        "frame": "LOCAL_NED",
+        "target_position_m": [5.0, 0.0, -3.0],
+        "position_tolerance_m": 0.5,
+        "timeout_s": 30.0
+      }
+    },
+    {
+      "step_id": "return_home",
+      "capability_id": "RETURN-HOME-001",
+      "post_action": "hold",
+      "input": {
+        "task_id": "RETURN-HOME-001",
+        "frame": "LOCAL_NED",
+        "home_position_m": [0.0, 0.0],
+        "return_altitude_m": 3.0,
+        "horizontal_tolerance_m": 0.5,
+        "altitude_tolerance_m": 0.5,
+        "timeout_s": 30.0
+      }
+    },
+    {
+      "step_id": "land",
+      "capability_id": "LAND-001",
+      "post_action": "none",
+      "input": {
+        "task_id": "LAND-001",
+        "frame": "LOCAL_NED",
+        "ground_altitude_tolerance_m": 0.5,
+        "horizontal_tolerance_m": 1.0,
+        "timeout_s": 30.0
+      }
+    }
+  ]
+}

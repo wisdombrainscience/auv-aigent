@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$PROJECT_DIR/uav.env" ]]; then set -a; source "$PROJECT_DIR/uav.env"; set +a; fi
+exec "$PROJECT_DIR/.venv/bin/python" "$PROJECT_DIR/tools/run_capability_experiment.py" "$@"

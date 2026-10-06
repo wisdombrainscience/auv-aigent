@@ -1,0 +1,9 @@
+version: 1
+status: simulation_only_configurable_workspace
+
+supported_frames:
+  - LOCAL_NED
+
+# Single source of truth: the frozen NAV-001 spec already points to
+# config/experiment.yaml, so the UI/runtime policy resolves the same region.
+test_area_source: experiment.yaml

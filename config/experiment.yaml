@@ -1,0 +1,19 @@
+default_frame: LOCAL_NED
+permitted_test_region:
+  configured: true
+  x_m:
+    min: -20.0
+    max: 20.0
+  y_m:
+    min: -20.0
+    max: 20.0
+  z_m:
+    min: -10.0
+    max: 0.0
+source_alignment:
+  input_policy: config/input_policy.yaml
+  status: CANONICAL_RUNTIME_REGION
+note: >-
+  This file is the canonical permitted simulation region. UI, runtime input
+  validation and NAV-001 verification policy references must resolve these bounds
+  rather than duplicating numeric values elsewhere.

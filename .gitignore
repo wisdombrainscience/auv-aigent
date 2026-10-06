@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+*~
+
+# Temporary / logs / backups
+*.log
+*.tmp
+*.bak
+*.orig
+*.rej
+*.swp
+
+# Local archive bundles
+*.zip
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# Simulator transient data
+*.ulg
+*.tlog
+
+# Runtime execution artifacts
+runs/
+
+# Local experimental/cache directories
+.cache/
+
+# Local deployment configuration
+uav.env
+
+# Generic environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+credentials.json
+secrets.json
+
+# Coverage / local tooling
+.coverage
+htmlcov/
+coverage.xml
+
+# Runtime/generated reports
+reports/

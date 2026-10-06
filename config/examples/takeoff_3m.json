@@ -1,0 +1,8 @@
+{
+  "task_id": "TAKEOFF-001",
+  "frame": "LOCAL_NED",
+  "target_altitude_m": 3.0,
+  "altitude_tolerance_m": 0.5,
+  "horizontal_tolerance_m": 1.0,
+  "timeout_s": 30.0
+}

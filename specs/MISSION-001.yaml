@@ -1,0 +1,72 @@
+spec_id: MISSION-001
+version: "1.0.0"
+status: frozen
+mission: verified_capability_sequence
+
+purpose: >-
+  Execute an ordered sequence of registered, independently verified UAV
+  capabilities in PX4 SITL while preserving each capability's frozen evidence
+  boundary and adding a deterministic mission-level verdict over sequence,
+  evidence integrity, inter-step continuity, terminal landed state, and terminal
+  home position.
+
+coordinate_convention:
+  frame: LOCAL_NED
+
+input:
+  mission_id: MISSION-001
+  frame: LOCAL_NED
+  continuity_tolerance_m:
+    type: number
+    finite: true
+    exclusive_minimum: 0
+  terminal_home_position_m:
+    type: array
+    length: 2
+    item_type: number
+    finite: true
+  terminal_home_tolerance_m:
+    type: number
+    finite: true
+    exclusive_minimum: 0
+  steps:
+    type: array
+    minimum_items: 2
+    first_capability: TAKEOFF-001
+    final_capability: LAND-001
+
+acceptance:
+  authoritative_verifier: independent_python_mission_verifier
+  checks:
+    step_sequence:
+      rule: executed_steps_match_declared_steps_in_order
+    child_verdicts:
+      rule: every_child_verification.overall == PASS
+    child_evidence_integrity:
+      rule: every_child_attempt_is_finalized_and_hash_valid
+    continuity:
+      rule: distance(previous_child_final, next_child_initial) <= input.continuity_tolerance_m
+    terminal_land_step:
+      rule: final_declared_capability == LAND-001
+    terminal_landed_state:
+      rule: final_child_final_vehicle_state != AIRBORNE
+    terminal_home:
+      rule: horizontal_distance(final_xy, input.terminal_home_position_m) <= input.terminal_home_tolerance_m
+  overall_rule: all_checks_pass
+  forbidden_acceptance_source:
+    - mission_runner_self_assessment
+    - capability_module_status_without_child_verification
+    - ai_agent_self_assessment
+
+evidence_contract:
+  required:
+    - mission_input.json
+    - mission_steps.json
+    - events.jsonl
+    - verification.json
+    - metadata.json
+
+immutability:
+  after_mission_start: true
+  ai_may_modify: false
+  recovery_agent_may_modify: false

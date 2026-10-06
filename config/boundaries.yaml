@@ -1,0 +1,30 @@
+version: 1
+roles:
+  implementation:
+    writable:
+      - src/capabilities/navigation/**
+    limited_writable:
+      - src/core/**
+    forbidden:
+      - specs/**
+      - tests/acceptance/**
+      - src/verification/**
+      - runs/**
+  recovery:
+    writable:
+      - src/capabilities/navigation/**
+    limited_writable:
+      - src/core/**
+    forbidden:
+      - specs/**
+      - tests/acceptance/**
+      - src/verification/**
+      - runs/**
+  test_generation:
+    writable:
+      - tests/unit/generated/**
+    forbidden:
+      - specs/**
+      - tests/acceptance/**
+      - src/verification/**
+      - runs/**

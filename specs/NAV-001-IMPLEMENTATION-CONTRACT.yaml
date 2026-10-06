@@ -1,0 +1,104 @@
+{
+  "contract_id": "NAV-001-IMPLEMENTATION-CONTRACT-v1",
+  "module": "GoToTargetModule",
+  "capability": "navigate_to_target",
+  "status": "FROZEN_FOR_PIPELINE_V2",
+  "source_of_truth": {
+    "spec": "specs/NAV-001.yaml",
+    "unit_test": "tests/unit/test_manual_goto_target.py",
+    "base_capability": "src/core/base_capability.py",
+    "errors": "src/core/errors.py",
+    "adapter": "src/adapters/base_uav_adapter.py",
+    "verifier": "src/verification/goto_target_verifier.py"
+  },
+  "protected_hashes": {
+    "specs/NAV-001.yaml": "7be2776b754052a900d2ebb9048e9e8af29304aeacbfe457bb8ea671dd7e919e",
+    "src/core/base_capability.py": "3d12e3dfd20cdc4917cecf3aa1158416658ecafc1af095881883268b95e76887",
+    "src/core/result.py": "5032dfdcb5ffd5b32153dad8365c0a7803ca658410530654ad52a9fface20bd7",
+    "src/core/errors.py": "5218e06ca87ebcc3a2a8a72253d45b3986a93720ae71532f424d4f6c6708f2ce",
+    "src/adapters/base_uav_adapter.py": "6eabac6abea6afe2dab1d99cd77dea14bd700969e62544b3f6c4fe0ea46c2962",
+    "src/verification/goto_target_verifier.py": "8119424c8ba9533e6f364f5b9de8cea772f0a803403175405636057c3db7202f",
+    "tests/unit/test_manual_goto_target.py": "ff3aabf1495a2c56f6e512bff05a41b9dda8e66815a752006daaa1a469692613"
+  },
+  "writable_paths": [
+    "src/capabilities/navigation/go_to_target.py"
+  ],
+  "constructor_contract": {
+    "required": [
+      "adapter"
+    ],
+    "optional": {
+      "poll_interval_s": {
+        "type": "float",
+        "example": 0.001
+      }
+    }
+  },
+  "input_contract": {
+    "frame_supported": [
+      "LOCAL_NED"
+    ],
+    "target_position_m": {
+      "length": 3,
+      "finite": true
+    },
+    "position_tolerance_m": {
+      "gt": 0
+    },
+    "timeout_s": {
+      "gt": 0
+    }
+  },
+  "error_semantics": {
+    "connected_false_before_execute": "PRECONDITION_FAILED",
+    "airborne_false_before_execute": "PRECONDITION_FAILED",
+    "localization_invalid_before_execute": "PRECONDITION_FAILED",
+    "localization_lost_during_execute": "LOCALIZATION_LOST",
+    "unsupported_frame_at_module_boundary": "UNSUPPORTED_FRAME",
+    "timeout": "TIMEOUT",
+    "unexpected_exception": "EXECUTION_ERROR"
+  },
+  "success_contract": {
+    "status": "completed",
+    "required_result_data_keys": [
+      "target_position",
+      "final_position",
+      "position_error_m",
+      "elapsed_time_s"
+    ],
+    "position_error_formula": "sqrt(dx^2 + dy^2 + dz^2)",
+    "abort_on_normal_success": false
+  },
+  "runtime_failure_contract": {
+    "abort_on_localization_loss": true,
+    "abort_on_cancellation": true,
+    "abort_on_execution_failure": true
+  },
+  "forbidden": {
+    "imports": [
+      "mavsdk",
+      "pymavlink",
+      "px4"
+    ],
+    "vehicle_actions": [
+      "arm",
+      "disarm",
+      "takeoff",
+      "land"
+    ],
+    "protected_edits": [
+      "specs/NAV-001.yaml",
+      "src/core/base_capability.py",
+      "src/core/result.py",
+      "src/core/errors.py",
+      "src/adapters/base_uav_adapter.py",
+      "src/verification/goto_target_verifier.py",
+      "tests/unit/test_manual_goto_target.py"
+    ]
+  },
+  "verification_rule": {
+    "module_position_error_is_diagnostic_only": true,
+    "independent_verifier_recomputes_from_telemetry": true,
+    "module_status_does_not_decide_acceptance": true
+  }
+}

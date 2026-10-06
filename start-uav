@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$ROOT/uav.env" ]]; then set -a; source "$ROOT/uav.env"; set +a; fi
+if [[ -x "$ROOT/.venv/bin/python" ]]; then
+  PYTHON_BIN="${PYTHON_BIN:-$ROOT/.venv/bin/python}"
+else
+  PYTHON_BIN="${PYTHON_BIN:-python3}"
+fi
+PORT="${UAV_PORT:-8370}"
+
+if ! command -v "$PYTHON_BIN" >/dev/null 2>&1 && [[ ! -x "$PYTHON_BIN" ]]; then
+  echo "ERROR: python3 is required." >&2
+  exit 2
+fi
+if ! command -v docker >/dev/null 2>&1; then
+  echo "ERROR: Docker is required for PX4 SITL simulation." >&2
+  exit 2
+fi
+if ! "$PYTHON_BIN" -c 'import yaml, mavsdk' >/dev/null 2>&1; then
+  echo "ERROR: Python dependencies are missing." >&2
+  echo "Run: $PYTHON_BIN -m pip install -e \"$ROOT\"" >&2
+  exit 2
+fi
+
+SIM_BACKEND="${UAV_SIM_BACKEND:-gazebo}"
+case "$SIM_BACKEND" in
+  gazebo)
+    SIM_IMAGE_DEFAULT="px4io/px4-sitl-gazebo:v1.18.0-beta1-660-g61907962c9"
+    ;;
+  sih)
+    SIM_IMAGE_DEFAULT="px4io/px4-sitl@sha256:c0fd482ece15bc2eecf0108ae70f8b3fa026faa4c167119f3641702b6fb20d09"
+    ;;
+  *)
+    echo "ERROR: UAV_SIM_BACKEND must be gazebo or sih (got: $SIM_BACKEND)." >&2
+    exit 2
+    ;;
+esac
+SIM_IMAGE="${UAV_SIM_IMAGE:-$SIM_IMAGE_DEFAULT}"
+
+if ! docker info >/dev/null 2>&1; then
+  echo "ERROR: Docker daemon is not reachable by this user." >&2
+  echo "Verify: docker ps" >&2
+  exit 2
+fi
+if [[ "${UAV_SKIP_SIM_PULL:-0}" != "1" ]] && ! docker image inspect "$SIM_IMAGE" >/dev/null 2>&1; then
+  echo "Simulator image is not installed locally:"
+  echo "  $SIM_IMAGE"
+  echo "Downloading it now (Gazebo is a large one-time download)..."
+  docker pull "$SIM_IMAGE"
+fi
+export UAV_SIM_BACKEND="$SIM_BACKEND"
+export UAV_SIM_IMAGE="$SIM_IMAGE"
+
+echo "Remote UAV console: http://127.0.0.1:${PORT}"
+echo "Mission Builder:    http://127.0.0.1:${PORT}/mission"
+echo "The console is localhost-only. Start/Restart Simulation from the web UI."
+echo "Simulation backend: ${SIM_BACKEND} (${SIM_IMAGE})"
+GUI_MODE="${UAV_GAZEBO_GUI:-auto}"
+if [[ "$SIM_BACKEND" == "sih" ]]; then
+  echo "Gazebo GUI: disabled (UAV_SIM_BACKEND=sih)."
+elif [[ "$GUI_MODE" != "off" && "$GUI_MODE" != "0" ]]; then
+  if [[ -z "${DISPLAY:-}" ]]; then
+    echo "Gazebo GUI: unavailable (DISPLAY is not set). Start this command from the graphical desktop terminal."
+  elif ! command -v xauth >/dev/null 2>&1; then
+    echo "Gazebo GUI: unavailable (xauth missing). Install with: sudo apt install xauth"
+  elif ! xauth nlist "$DISPLAY" 2>/dev/null | grep -q .; then
+    echo "Gazebo GUI: unavailable (no Xauthority cookie for DISPLAY=${DISPLAY})."
+    echo "            Auto mode will keep Gazebo physics headless; use a local desktop terminal with a valid X session for the window."
+  else
+    echo "Gazebo GUI: ready on DISPLAY=${DISPLAY}. A Gazebo window will open when simulation starts."
+  fi
+else
+  echo "Gazebo GUI: disabled by UAV_GAZEBO_GUI=${GUI_MODE}"
+fi
+exec "$PYTHON_BIN" "$ROOT/tools/step37a_console.py" --project "$ROOT" --host 127.0.0.1 --port "$PORT"

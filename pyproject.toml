@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uav-capability-framework"
+version = "1.0.1"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6.0", "mavsdk==3.17.2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7,<10"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src", "src.*", "orchestration", "user_interface", "ai", "ai.*"]
+
+[tool.setuptools.package-data]
+user_interface = ["*.html"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests/unit"]

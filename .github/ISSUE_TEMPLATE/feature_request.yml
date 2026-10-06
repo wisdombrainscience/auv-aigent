@@ -1,0 +1,22 @@
+name: Feature request
+description: Propose an improvement while preserving verification/safety boundaries
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / use case
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification impact
+      description: Explain whether frozen specs, verifier, evidence, resource policy, or mission continuity are affected.

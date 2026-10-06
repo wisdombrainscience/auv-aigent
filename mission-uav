@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$ROOT/uav.env" ]]; then set -a; source "$ROOT/uav.env"; set +a; fi
+PYTHON_BIN="${PYTHON_BIN:-$ROOT/.venv/bin/python}"
+if [[ ! -x "$PYTHON_BIN" ]]; then
+  echo "ERROR: project virtual environment is missing. Run: $ROOT/setup-uav" >&2
+  exit 2
+fi
+exec env -u PYTHONPATH "$PYTHON_BIN" "$ROOT/tools/run_mission_experiment.py" "$@"

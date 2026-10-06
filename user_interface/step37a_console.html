@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Remote UAV Mission Console</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;color:#172033;background:#eef2f7;--card:#fff;--line:#d8e0ea;--muted:#667085;--ok:#087a45;--bad:#b42318;--accent:#2457d6;--warn:#a15c00}*{box-sizing:border-box}body{margin:0}.shell{max-width:1440px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:14px}.brand h1{font-size:1.45rem;margin:0}.sub{color:var(--muted);font-size:.9rem}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:.82rem}.chip.ok{color:var(--ok);border-color:#a7d8bf;background:#ecfdf3}.chip.bad{color:var(--bad);border-color:#f4b8b5;background:#fff1f0}.navlink{display:inline-flex;text-decoration:none;border:1px solid var(--line);background:#fff;color:#344054;border-radius:9px;padding:6px 10px;font-size:.82rem;font-weight:650}.layout{display:grid;grid-template-columns:360px 1fr;gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 2px 8px rgba(16,24,40,.035)}.stack{display:grid;gap:14px}.card h2{font-size:1rem;margin:0 0 12px}.label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.big{font-size:1.2rem;font-weight:700}.coords{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.coord{background:#f7f9fc;border-radius:10px;padding:10px}.coord b{display:block;font-size:1.08rem;margin-top:3px}.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}label{display:flex;flex-direction:column;gap:5px;color:#344054;font-size:.85rem}input{width:100%;padding:9px 10px;border:1px solid #b9c4d1;border-radius:8px;font:inherit;background:#fff}input:focus{outline:2px solid #bfd0ff;border-color:var(--accent)}button{border:0;border-radius:9px;padding:10px 13px;font:inherit;font-weight:650;cursor:pointer;background:var(--accent);color:#fff}button.secondary{background:#e8edf5;color:#24324a}button.danger{background:#b42318}button.ghost{background:#fff;color:#344054;border:1px solid var(--line)}button:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.hint{font-size:.82rem;color:var(--muted);line-height:1.45}.notice{font-size:.84rem;border-radius:9px;padding:9px 10px;background:#eef4ff;color:#29477d;margin-top:10px}.notice.warn{background:#fff7e8;color:#7a4b00}.mapcard{padding:0;overflow:hidden}.maphead{display:flex;justify-content:space-between;align-items:center;padding:14px 15px;border-bottom:1px solid var(--line);gap:10px}.viewtoggle{display:flex;gap:6px}.viewtoggle button{padding:6px 9px;font-size:.78rem}.viewtoggle button.active{background:var(--accent);color:#fff}svg{display:block;width:100%;height:min(58vh,570px);background:#fbfcfe;cursor:crosshair}#map3d{cursor:default}.legend{display:flex;gap:12px;font-size:.78rem;color:var(--muted);flex-wrap:wrap}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 15px;border-top:1px solid var(--line)}.metric{background:#f7f9fc;padding:9px;border-radius:9px}.metric b{display:block;margin-top:2px}.result.pass{border-left:5px solid #12a05c}.result.fail{border-left:5px solid #d92d20}.result.idle{border-left:5px solid #98a2b3}.history{width:100%;border-collapse:collapse;font-size:.85rem}.history th,.history td{text-align:left;padding:8px;border-bottom:1px solid #edf1f5}.history th{color:var(--muted);font-weight:600}.pill{border-radius:999px;padding:3px 7px;font-size:.75rem;font-weight:700;background:#eef2f6}.pill.pass{color:var(--ok);background:#ecfdf3}.pill.fail{color:var(--bad);background:#fff1f0}.bottom{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-top:14px}details{margin-top:10px}summary{cursor:pointer;color:#475467;font-weight:600;font-size:.86rem}pre{background:#101828;color:#d0d5dd;border-radius:9px;padding:10px;max-height:290px;overflow:auto;font-size:.76rem}.storagebar{height:8px;background:#edf1f5;border-radius:999px;overflow:hidden;margin:8px 0}.storagebar>div{height:100%;background:var(--accent)}@media(max-width:980px){.layout{grid-template-columns:1fr}.bottom{grid-template-columns:1fr}svg{height:430px}}@media(max-width:600px){.shell{padding:10px}.top{align-items:flex-start;flex-direction:column}.coords,.formgrid,.metrics{grid-template-columns:1fr 1fr}.metrics{padding:10px}.layout{gap:10px}.card{border-radius:11px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="brand"><h1>Remote UAV Mission Console</h1><div class="sub">PX4 SITL simulation · LOCAL_NED nội bộ · PASS/FAIL do verifier deterministic</div></div>
+    <div class="chips"><a class="navlink" href="/mission">Mission Builder</a><button id="gazeboBtn" class="ghost" type="button">Open Gazebo</button><span id="gazeboChip" class="chip">Gazebo —</span><span id="simChip" class="chip">Simulation —</span><span id="sessionChip" class="chip">Session NEW</span><span id="storageChip" class="chip">Storage —</span></div>
+  </div>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <h2>UAV hiện tại</h2>
+        <div class="coords">
+          <div class="coord"><span class="label">North</span><b id="curN">—</b></div>
+          <div class="coord"><span class="label">East</span><b id="curE">—</b></div>
+          <div class="coord"><span class="label">Altitude</span><b id="curA">—</b></div>
+        </div>
+        <div class="hint" id="startSource">Điểm đầu được lấy tự động từ trạng thái session/telemetry.</div>
+      </section>
+
+      <section class="card">
+        <h2>Điểm đích</h2>
+        <div class="formgrid">
+          <label>North (m)<input id="tn" type="number" step="0.1" value="3"></label>
+          <label>East (m)<input id="te" type="number" step="0.1" value="5"></label>
+          <label>Altitude (m)<input id="ta" type="number" step="0.1" min="0.1" value="2"></label>
+        </div>
+        <div class="hint" style="margin-top:8px">Bạn có thể nhập số hoặc click trực tiếp lên bản đồ. UI dùng độ cao dương; backend tự chuyển sang LOCAL_NED Down âm.</div>
+        <div class="actions"><button id="flyBtn" disabled>Bay tới điểm đích</button><button id="homeBtn" class="secondary" disabled>Đặt đích = Home</button><button id="landBtn" class="ghost" disabled>Land</button></div>
+        <details>
+          <summary>Tùy chọn nâng cao</summary>
+          <div class="formgrid" style="margin-top:10px">
+            <label>Acceptance radius (m)<input id="tol" type="number" min="0.01" step="0.05" value="0.5"></label>
+            <label>Start tolerance (m)<input id="stol" type="number" min="0.01" step="0.05" value="0.75"></label>
+            <label>Timeout (s)<input id="timeout" type="number" min="1" step="1" value="30"></label>
+          </div>
+          <label style="margin-top:8px">Scenario ID<input id="scenario" maxlength="80" value="INTERACTIVE-DEMO"></label>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2>Simulation session</h2>
+        <div class="hint">Khởi tạo ban đầu là thao tác setup simulator, không phải “điểm đầu” mà bạn phải nhập cho mỗi chuyến bay.</div>
+        <details open>
+          <summary>Initial UAV position</summary>
+          <div class="formgrid" style="margin-top:10px">
+            <label>North (m)<input id="sn" type="number" step="0.1" value="0"></label>
+            <label>East (m)<input id="se" type="number" step="0.1" value="0"></label>
+            <label>Altitude (m)<input id="sa" type="number" step="0.1" min="0" value="0"></label>
+          </div>
+        </details>
+        <div class="actions"><button id="restartBtn">Start / Restart Simulation</button></div>
+        <div id="sessionNotice" class="notice">Chưa có session. Hãy khởi động simulation.</div>
+      </section>
+    </div>
+
+    <section class="card mapcard">
+      <div class="maphead"><div><b>Live navigation</b><div class="sub" id="viewHint">2D: click bản đồ để chọn North/East; Altitude giữ theo ô nhập</div></div><div><div class="viewtoggle"><button id="view2d" class="secondary active" type="button">2D Map</button><button id="view3d" class="secondary" type="button">3D Trajectory</button></div><div class="legend" style="margin-top:6px"><span><i class="dot" style="background:#344054"></i>Home</span><span><i class="dot" style="background:#2457d6"></i>UAV</span><span><i class="dot" style="background:#d92d20"></i>Target</span></div></div></div>
+      <svg id="map" viewBox="0 0 900 560" preserveAspectRatio="none"></svg>
+      <svg id="map3d" viewBox="0 0 900 560" preserveAspectRatio="none" style="display:none"></svg>
+      <div class="metrics">
+        <div class="metric"><span class="label">Status</span><b id="runStatus">IDLE</b></div>
+        <div class="metric"><span class="label">Distance</span><b id="distance">—</b></div>
+        <div class="metric"><span class="label">Last error</span><b id="error">—</b></div>
+        <div class="metric"><span class="label">Last verifier</span><b id="verdict">—</b></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="bottom">
+    <section id="resultCard" class="card result idle">
+      <h2>Kết quả chuyến bay</h2>
+      <div id="resultText" class="hint">Chưa có chuyến bay trong session này.</div>
+      <div class="actions"><button id="newTargetBtn" class="secondary" disabled>Điểm đích mới</button><button id="repeatBtn" class="secondary" disabled>Bay lại target</button></div>
+    </section>
+    <section class="card">
+      <h2>Tài nguyên</h2>
+      <div id="resourceText" class="hint">Đang đọc trạng thái…</div>
+      <div class="storagebar"><div id="storageBar" style="width:0%"></div></div>
+      <div class="hint">RAM runtime dùng buffer giới hạn; raw telemetry chỉ ghi trong execution window.</div>
+    </section>
+  </div>
+
+  <div class="bottom">
+    <section class="card">
+      <h2>Lịch sử gần đây</h2>
+      <table class="history"><thead><tr><th>Run</th><th>Target</th><th>Actual</th><th>Error</th><th>Verdict</th></tr></thead><tbody id="historyBody"><tr><td colspan="5">Chưa có dữ liệu.</td></tr></tbody></table>
+    </section>
+    <section class="card">
+      <h2>Developer / evidence</h2>
+      <details><summary>Xem trạng thái kỹ thuật</summary><pre id="raw">—</pre></details>
+    </section>
+  </div>
+</div>
+<script>
+let session=null, config=null, runId=null, rows=[], lastRun=null, pollTimer=null, lastTelemetryTs=null;
+const $=id=>document.getElementById(id);
+const fmt=v=>Number.isFinite(Number(v))?Number(v).toFixed(2)+' m':'—';
+const nedAlt=z=>Number.isFinite(Number(z))?-Number(z):null;
+const posText=p=>Array.isArray(p)?`N ${Number(p[0]).toFixed(2)}, E ${Number(p[1]).toFixed(2)}, Alt ${(-Number(p[2])).toFixed(2)} m`:'—';
+function currentPosition(){if(rows.length&&runId){const r=rows[rows.length-1];return [+r.x,+r.y,+r.z]}return session?.current_vehicle_position_m||session?.current_requested_start_position_m||session?.last_verified_final_position_m||session?.home_position_m||null}
+function targetPosition(){return [+$('tn').value,+$('te').value,-Math.abs(+$('ta').value)]}
+function renderSession(){const p=currentPosition();$('curN').textContent=p?fmt(p[0]):'—';$('curE').textContent=p?fmt(p[1]):'—';$('curA').textContent=p?fmt(nedAlt(p[2])):'—';$('sessionChip').textContent='Session '+(session?.state||'NEW');$('sessionChip').className='chip '+(session?.state==='RESET_REQUIRED'?'bad':(session?.session_id?'ok':''));const ready=session?.session_id&&!['NEW','RUNNING','RESET_REQUIRED'].includes(session.state);$('flyBtn').disabled=!ready;$('landBtn').disabled=!session?.session_id||session.state==='RUNNING';$('homeBtn').disabled=!session?.home_position_m;$('simChip').textContent=session?.simulation?.status==='RUNNING'?'Simulation RUNNING':'Simulation —';$('simChip').className='chip '+(session?.simulation?.status==='RUNNING'?'ok':'');const gz=session?.simulation?.gazebo_gui||{};$('gazeboChip').textContent='Gazebo '+(gz.status||'—');$('gazeboChip').className='chip '+(gz.status==='RUNNING'?'ok':(gz.status==='ERROR'?'bad':''));$('gazeboBtn').disabled=session?.simulation?.status!=='RUNNING'||['DISABLED','UNAVAILABLE'].includes(gz.status);const atGround=!!(p&&Math.abs(Number(p[2]))<0.25);let msg='Session sẵn sàng.';if(!session?.session_id)msg='Chưa có session. Hãy Start / Restart Simulation.';else if(session.state==='RUNNING')msg='Capability đang chạy. Điểm đầu đã khóa theo trạng thái thực của session.';else if(session.state==='RESET_REQUIRED')msg='Trạng thái UAV không còn chắc chắn. Cần Restart Simulation trước khi bay tiếp.';else if(session.state==='COMPLETED')msg='Run đã hoàn tất. Chọn target mới và bấm Bay tới điểm đích; backend tự chuyển sang CONTINUE và lấy telemetry mới làm điểm đầu.';else if(session.state==='LANDED')msg='UAV đã land. Khi bay tiếp, Single Flight sẽ auto-takeoff rồi mở NAV-001.';else if(ready&&atGround)msg='UAV đang ở mặt đất. Bay tới điểm đích sẽ auto-takeoff đến độ cao target; verdict NAV-001 chỉ bắt đầu sau bước setup này.';$('sessionNotice').textContent=msg;renderMap()}
+async function loadSession(){const r=await fetch('/api/session');session=await r.json();renderSession()}
+async function loadConfig(){const r=await fetch('/api/config');config=await r.json();$('timeout').max=config.max_timeout_s||300;renderMap()}
+async function loadResources(){const r=await fetch('/api/resources');const s=await r.json();$('storageChip').textContent=s.ok?'Storage OK':'Storage BLOCKED';$('storageChip').className='chip '+(s.ok?'ok':'bad');$('resourceText').textContent=`Runs ${s.runs_mb} MB / ${s.max_runs_size_mb} MB · Free disk ${s.free_disk_mb} MB`;$('storageBar').style.width=Math.min(100,s.usage_percent_of_runs_quota||0)+'%'}
+async function loadHistory(){const r=await fetch('/api/history?limit=20');const h=await r.json();const body=$('historyBody');if(!h.items?.length){body.innerHTML='<tr><td colspan="5">Chưa có dữ liệu.</td></tr>';return}body.innerHTML=h.items.map(x=>`<tr><td title="${x.run_id}">${String(x.run_id).split('/').slice(-2).join('/')}</td><td>${posText(x.target_position_m)}</td><td>${posText(x.final_position_m)}</td><td>${x.position_error_m==null?'—':Number(x.position_error_m).toFixed(3)+' m'}</td><td><span class="pill ${(x.verdict||'').toLowerCase()}">${x.verdict||'—'}</span></td></tr>`).join('')}
+function clearFlightMetrics(){ $('error').textContent='—';$('verdict').textContent='—'; }
+$('restartBtn').onclick=async()=>{if(session?.session_id&&!confirm('Restart Simulation sẽ xóa trạng thái vehicle hiện tại và tạo session mới. Tiếp tục?'))return;$('runStatus').textContent='STARTING SIM';const p=[+$('sn').value,+$('se').value,-Math.abs(+$('sa').value)];const r=await fetch('/api/session/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({start_position_m:p})});const b=await r.json();$('raw').textContent=JSON.stringify(b,null,2);if(!r.ok){$('runStatus').textContent='RESET FAILED';alert(b.error||'Reset failed');return}session=b;rows=[];lastTelemetryTs=null;lastRun=null;runId=null;clearFlightMetrics();$('runStatus').textContent='READY';renderSession();renderResult(null);renderMap();await loadResources()};
+$('flyBtn').onclick=async()=>{if(!session?.session_id)return;const target=targetPosition();const payload={target_position_m:target,position_tolerance_m:+$('tol').value,start_position_tolerance_m:+$('stol').value,timeout_s:+$('timeout').value,frame:'LOCAL_NED',scenario_id:$('scenario').value};$('runStatus').textContent='STARTING';$('verdict').textContent='—';$('error').textContent='—';rows=[];lastTelemetryTs=null;renderMap();const r=await fetch('/api/experiment/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const b=await r.json();$('raw').textContent=JSON.stringify(b,null,2);if(!r.ok){$('runStatus').textContent='BLOCKED';alert(b.error||'Run blocked');return}runId=b.run_id;pollRun()};
+async function pollRun(){if(!runId)return;clearTimeout(pollTimer);const cursor=lastTelemetryTs==null?'':'?since='+encodeURIComponent(lastTelemetryTs)+'&limit='+(config?.telemetry_batch_limit||120);const [sr,tr]=await Promise.all([fetch('/api/experiment/'+encodeURIComponent(runId)+'/status',{cache:'no-store'}),fetch('/api/experiment/'+encodeURIComponent(runId)+'/telemetry'+cursor,{cache:'no-store'})]);const s=await sr.json(),t=await tr.json();lastRun=s;const incoming=t.rows||[];if(incoming.length){rows.push(...incoming);const cap=config?.live_buffer_points||300;if(rows.length>cap)rows=rows.slice(-cap);lastTelemetryTs=Number(incoming[incoming.length-1].timestamp)}const phaseLabel={AUTO_TAKEOFF_SETUP:'AUTO TAKEOFF',TAKEOFF_STABILIZE:'STABILIZING',SIMULATION_SETUP:'AIRBORNE SETUP',START_GATE:'START GATE',RUNNING_CAPABILITY:'NAV RUNNING',VERIFYING:'VERIFYING',VERIFIED:s.status}[s.phase];$('runStatus').textContent=phaseLabel||s.status||'—';$('raw').textContent=JSON.stringify({run:s,session},null,2);if(s.result){$('verdict').textContent=s.result.overall||s.status;$('error').textContent=s.result.position_error_m==null?'—':Number(s.result.position_error_m).toFixed(3)+' m'}updateDistance();renderMap();if(['PASS','FAIL','FAILED'].includes(s.status)){await loadSession();renderResult(s);await Promise.all([loadHistory(),loadResources()]);if(['FAIL','FAILED'].includes(s.status)){const detail=s.error||s.result?.reason||'Single Flight failed';console.error('Single Flight failed:',detail)}runId=null;renderSession();renderMap();return}pollTimer=setTimeout(pollRun,config?.single_flight_poll_ms||750)}
+$('gazeboBtn').onclick=async()=>{const r=await fetch('/api/simulation/gazebo',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const b=await r.json();$('raw').textContent=JSON.stringify(b,null,2);if(!r.ok){alert(b.error||'Không mở được Gazebo GUI');return}await loadSession()};
+$('landBtn').onclick=async()=>{if(!session?.session_id)return;$('runStatus').textContent='LANDING';const r=await fetch('/api/session/land',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const b=await r.json();$('raw').textContent=JSON.stringify(b,null,2);if(!r.ok){$('runStatus').textContent='LAND FAILED';alert(b.error||'Land failed');return}session=b.session;rows=[];lastTelemetryTs=null;$('runStatus').textContent='LANDED';renderSession();renderMap()};
+$('homeBtn').onclick=()=>{const h=session?.home_position_m;if(!h)return;$('tn').value=Number(h[0]).toFixed(2);$('te').value=Number(h[1]).toFixed(2);const cur=currentPosition();const curAlt=cur?Math.max(0,-Number(cur[2])):0;const requestedAlt=Math.max(0,Number($('ta').value)||0);const last=session?.last_verified_final_position_m;const lastAlt=Array.isArray(last)?Math.max(0,-Number(last[2])):0;const safeAlt=curAlt>=0.3?curAlt:(requestedAlt>=0.3?requestedAlt:(lastAlt>=0.3?lastAlt:2));$('ta').value=safeAlt.toFixed(2);renderMap()};
+$('newTargetBtn').onclick=()=>{$('tn').focus();$('tn').select()};$('repeatBtn').onclick=()=>{$('flyBtn').click()};
+['tn','te','ta','tol'].forEach(id=>$(id).addEventListener('input',()=>{if(!runId&&lastRun){rows=[];$('runStatus').textContent=session?.state==='LANDED'?'LANDED':'READY'}updateDistance();renderMap()}));
+function updateDistance(){const p=currentPosition(),t=targetPosition();if(!p){$('distance').textContent='—';return}const d=Math.hypot(p[0]-t[0],p[1]-t[1],p[2]-t[2]);$('distance').textContent=d.toFixed(2)+' m'}
+function renderResult(run){const c=$('resultCard');if(!run?.result){c.className='card result idle';$('resultText').textContent='Chưa có chuyến bay trong session này.';$('newTargetBtn').disabled=true;$('repeatBtn').disabled=true;return}const v=run.result,actual=run.verified_final_position_m||session?.last_verified_final_position_m,target=run.request?.target_position_m;c.className='card result '+((v.overall||'').toLowerCase());$('resultText').innerHTML=`<b>${v.overall||run.status}</b><br>Target: ${posText(target)}<br>Actual: ${posText(actual)}<br>Position error: ${v.position_error_m==null?'—':Number(v.position_error_m).toFixed(3)+' m'} · Duration: ${v.elapsed_time_s==null?'—':Number(v.elapsed_time_s).toFixed(2)+' s'}<br><span class="hint">Evidence đã đóng băng trước verification; flight tiếp theo bắt đầu từ Actual.</span>`;$('newTargetBtn').disabled=false;$('repeatBtn').disabled=false}
+function mapTransform(){const a=config?.workspace||{x_min:-20,x_max:20,y_min:-20,y_max:20};const pad=48,w=900,h=560;return{a,pad,w,h,xy:(n,e)=>[pad+(e-a.y_min)/(a.y_max-a.y_min)*(w-2*pad),h-pad-(n-a.x_min)/(a.x_max-a.x_min)*(h-2*pad)],ne:(x,y)=>[a.x_min+(h-pad-y)/(h-2*pad)*(a.x_max-a.x_min),a.y_min+(x-pad)/(w-2*pad)*(a.y_max-a.y_min)]}}
+function renderMap(){
+  const svg=$('map'),m=mapTransform();let html='';
+  for(let i=0;i<=8;i++){
+    const x=m.pad+i*(m.w-2*m.pad)/8,y=m.pad+i*(m.h-2*m.pad)/8;
+    html+=`<line x1="${x}" y1="${m.pad}" x2="${x}" y2="${m.h-m.pad}" stroke="#e8edf3"/><line x1="${m.pad}" y1="${y}" x2="${m.w-m.pad}" y2="${y}" stroke="#e8edf3"/>`;
+  }
+  const zero=m.xy(0,0);
+  html+=`<line x1="${zero[0]}" y1="${m.pad}" x2="${zero[0]}" y2="${m.h-m.pad}" stroke="#b9c4d1"/><line x1="${m.pad}" y1="${zero[1]}" x2="${m.w-m.pad}" y2="${zero[1]}" stroke="#b9c4d1"/><text x="${m.w-80}" y="${m.h-12}" fill="#667085" font-size="14">East →</text><text x="12" y="24" fill="#667085" font-size="14">North ↑</text>`;
+  if(rows.length>1){
+    const d=rows.map((r,i)=>{const q=m.xy(+r.x,+r.y);return(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ');
+    html+=`<path d="${d}" fill="none" stroke="#2457d6" stroke-width="4" opacity=".75"/>`;
+  }
+  const home=session?.home_position_m;
+  if(home){const q=m.xy(home[0],home[1]);html+=`<rect x="${q[0]-7}" y="${q[1]-7}" width="14" height="14" rx="2" fill="#344054"/><text x="${q[0]+11}" y="${q[1]-9}" font-size="13" fill="#344054">Home</text>`}
+  const p=currentPosition(),t=targetPosition();
+  const start=rows.length?[+rows[0].x,+rows[0].y,+rows[0].z]:p;
+  if(start&&t.every(Number.isFinite)){
+    const a=m.xy(start[0],start[1]),b=m.xy(t[0],t[1]);
+    html+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#98a2b3" stroke-width="2" stroke-dasharray="7 7"/>`;
+    if(rows.length) html+=`<circle cx="${a[0]}" cy="${a[1]}" r="5" fill="#667085"/><text x="${a[0]+9}" y="${a[1]-8}" font-size="12" fill="#667085">Start</text>`;
+  }
+  let uavOffset=[12,4],targetOffset=[11,4];
+  if(p&&t.every(Number.isFinite)){
+    const pu=m.xy(p[0],p[1]),pt=m.xy(t[0],t[1]);
+    if(Math.hypot(pu[0]-pt[0],pu[1]-pt[1])<42){uavOffset=[-48,-14];targetOffset=[12,18]}
+  }
+  if(p){const q=m.xy(p[0],p[1]);html+=`<circle cx="${q[0]}" cy="${q[1]}" r="8" fill="#2457d6" stroke="white" stroke-width="3"/><text x="${q[0]+uavOffset[0]}" y="${q[1]+uavOffset[1]}" font-size="13" fill="#2457d6">UAV</text>`}
+  if(t.every(Number.isFinite)){
+    const q=m.xy(t[0],t[1]);const scale=Math.min((m.w-2*m.pad)/(m.a.y_max-m.a.y_min),(m.h-2*m.pad)/(m.a.x_max-m.a.x_min));const rr=Math.max(5,+$('tol').value*scale);
+    html+=`<circle cx="${q[0]}" cy="${q[1]}" r="${rr}" fill="#d92d20" opacity=".09"/><circle cx="${q[0]}" cy="${q[1]}" r="7" fill="#d92d20" stroke="white" stroke-width="3"/><text x="${q[0]+targetOffset[0]}" y="${q[1]+targetOffset[1]}" font-size="13" fill="#b42318">Target</text>`;
+  }
+  svg.innerHTML=html;updateDistance();if(mapMode==='3d')render3D();
+}
+let mapMode='2d';
+$('view2d').onclick=()=>{mapMode='2d';$('map').style.display='block';$('map3d').style.display='none';$('view2d').classList.add('active');$('view3d').classList.remove('active');$('viewHint').textContent='2D: click bản đồ để chọn North/East; Altitude giữ theo ô nhập'};
+$('view3d').onclick=()=>{mapMode='3d';$('map').style.display='none';$('map3d').style.display='block';$('view3d').classList.add('active');$('view2d').classList.remove('active');$('viewHint').textContent='3D trajectory view từ telemetry thật; physics vẫn do PX4/Gazebo mô phỏng';render3D()};
+function render3D(){
+  const svg=$('map3d'),a=config?.workspace||{x_min:-20,x_max:20,y_min:-20,y_max:20,z_min:-10,z_max:0};
+  const cx=450,base=430,sx=10,sy=5,sz=25;const proj=(n,e,z)=>[cx+(e-n)*sx,base-(e+n)*sy-(-z)*sz];
+  let html='<rect width="900" height="560" fill="#fbfcfe"/>';
+  for(let i=-20;i<=20;i+=5){const p1=proj(i,-20,0),p2=proj(i,20,0),p3=proj(-20,i,0),p4=proj(20,i,0);html+=`<line x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}" stroke="#e6ebf2"/><line x1="${p3[0]}" y1="${p3[1]}" x2="${p4[0]}" y2="${p4[1]}" stroke="#e6ebf2"/>`}
+  const pts=rows.length?rows.map(r=>[+r.x,+r.y,+r.z]):[];
+  if(pts.length>1){const d=pts.map((p,i)=>{const q=proj(...p);return(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ');html+=`<path d="${d}" fill="none" stroke="#2457d6" stroke-width="4"/>`}
+  const start=pts.length?pts[0]:null;
+  if(start){const q=proj(...start),g=proj(start[0],start[1],0);html+=`<line x1="${q[0]}" y1="${q[1]}" x2="${g[0]}" y2="${g[1]}" stroke="#98a2b3" stroke-dasharray="4 4"/><circle cx="${q[0]}" cy="${q[1]}" r="5" fill="#667085"/><text x="${q[0]+8}" y="${q[1]-8}" font-size="12" fill="#667085">Start</text>`}
+  const cur=currentPosition(),t=targetPosition();let uavOffset=[11,3],targetOffset=[10,3];
+  if(cur&&t.every(Number.isFinite)){const a=proj(...cur),b=proj(...t);if(Math.hypot(a[0]-b[0],a[1]-b[1])<42){uavOffset=[-48,-14];targetOffset=[12,18]}}
+  if(cur){const q=proj(...cur),g=proj(cur[0],cur[1],0);html+=`<line x1="${q[0]}" y1="${q[1]}" x2="${g[0]}" y2="${g[1]}" stroke="#bfd0ff"/><circle cx="${q[0]}" cy="${q[1]}" r="8" fill="#2457d6" stroke="white" stroke-width="3"/><text x="${q[0]+uavOffset[0]}" y="${q[1]+uavOffset[1]}" font-size="13" fill="#2457d6">UAV</text>`}
+  if(t.every(Number.isFinite)){const q=proj(...t),g=proj(t[0],t[1],0);html+=`<line x1="${q[0]}" y1="${q[1]}" x2="${g[0]}" y2="${g[1]}" stroke="#f0b7b1"/><circle cx="${q[0]}" cy="${q[1]}" r="7" fill="#d92d20" stroke="white" stroke-width="3"/><text x="${q[0]+targetOffset[0]}" y="${q[1]+targetOffset[1]}" font-size="13" fill="#b42318">Target</text>`}
+  html+=`<text x="18" y="26" font-size="13" fill="#667085">3D telemetry trajectory · N/E/Altitude</text>`;svg.innerHTML=html;
+}
+$('map').addEventListener('click',ev=>{if(!config)return;const r=$('map').getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*900,y=(ev.clientY-r.top)/r.height*560,m=mapTransform();if(x<m.pad||x>m.w-m.pad||y<m.pad||y>m.h-m.pad)return;const [n,e]=m.ne(x,y);$('tn').value=n.toFixed(2);$('te').value=e.toFixed(2);renderMap()});
+async function init(){await Promise.all([loadConfig(),loadSession(),loadResources(),loadHistory()]);clearFlightMetrics();renderSession();renderResult(null);renderMap();setInterval(loadResources,(config?.resource_poll_s||15)*1000)}init();
+</script>
+</body>
+</html>

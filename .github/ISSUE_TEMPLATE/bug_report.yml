@@ -1,0 +1,55 @@
+name: Bug report
+description: Report a reproducible issue in the supported simulation workflow
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not paste credentials, tokens, private keys, or sensitive evidence."
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "./uavctl version"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Installation / doctor
+        - Single Flight
+        - Mission Builder
+        - Gazebo GUI
+        - Capability verifier
+        - Mission verifier
+        - Evidence / storage
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include target/mission values and commands where relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Paste output from `./uavctl doctor --gui` and relevant log tail.
+      render: shell

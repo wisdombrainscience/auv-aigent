@@ -1,0 +1,7 @@
+{
+  "task_id": "NAV-001",
+  "frame": "LOCAL_NED",
+  "target_position_m": [5.0, 0.0, -3.0],
+  "position_tolerance_m": 0.5,
+  "timeout_s": 30.0
+}

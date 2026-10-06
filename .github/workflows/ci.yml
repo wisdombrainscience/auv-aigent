@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install developer dependencies
+        run: ./uavctl install --dev
+      - name: Run regression suite
+        run: ./uavctl test
+      - name: Compile Python sources
+        run: python -m compileall -q src orchestration user_interface tools
+      - name: Validate shell entrypoints
+        run: bash -n uavctl install-uav setup-uav start-uav test-uav health-uav storage-uav capability-uav mission-uav soak-uav

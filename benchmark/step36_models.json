@@ -1,0 +1,57 @@
+{
+  "task": "NAV-001",
+  "step": "36A",
+  "scope": "LOCAL_MODEL_IMPLEMENTATION_BENCHMARK",
+  "notes": [
+    "One first-attempt implementation job per unique installed model image.",
+    "qwen2.5-coder:3b and qwen2.5-coder:3b-instruct share the same Ollama ID, so only the instruct alias is benchmarked.",
+    "No PX4/Gazebo/SITL is started in Phase 36A.",
+    "Accepted go_to_target.py is never included in model context."
+  ],
+  "models": [
+    {
+      "id": "Q3_4B_AGENT_8K",
+      "ollama_tag": "qwen3:4b-agent-8k",
+      "ollama_image_id": "14f569683625",
+      "opencode_candidates": [
+        "ollama/qwen3:4b-agent-8k",
+        "ollama/qwen3-agent-8k"
+      ]
+    },
+    {
+      "id": "Q3_4B_AGENT_32K",
+      "ollama_tag": "qwen3:4b-agent-32k",
+      "ollama_image_id": "f8c63973b33b",
+      "opencode_candidates": [
+        "ollama/qwen3:4b-agent-32k",
+        "ollama/qwen3-agent-32k"
+      ]
+    },
+    {
+      "id": "Q3_4B_INSTRUCT",
+      "ollama_tag": "qwen3:4b-instruct",
+      "ollama_image_id": "0edcdef34593",
+      "opencode_candidates": [
+        "ollama/qwen3:4b-instruct",
+        "ollama/qwen3-instruct"
+      ]
+    },
+    {
+      "id": "Q25_CODER_3B_32K",
+      "ollama_tag": "qwen2.5-coder:3b-32k",
+      "ollama_image_id": "003da3c529e9",
+      "opencode_candidates": [
+        "ollama/qwen2.5-coder:3b-32k"
+      ]
+    },
+    {
+      "id": "Q25_CODER_3B_INSTRUCT",
+      "ollama_tag": "qwen2.5-coder:3b-instruct",
+      "ollama_image_id": "f72c60cabf62",
+      "opencode_candidates": [
+        "ollama/qwen2.5-coder:3b-instruct",
+        "ollama/qwen2.5-coder:3b"
+      ]
+    }
+  ]
+}

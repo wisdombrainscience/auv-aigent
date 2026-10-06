@@ -1,0 +1,140 @@
+spec_id: NAV-001
+version: "1.0.0"
+status: frozen
+module: GoToTargetModule
+capability: navigate_to_target
+
+purpose: >-
+  Move a simulated UAV from its current position to a user-provided target
+  position (x, y, z) within an allowed position tolerance and timeout.
+
+input:
+  user_provided:
+    task_id:
+      type: string
+      required: true
+    scenario_id:
+      type: string
+      required: false
+    frame:
+      type: string
+      required: true
+      allowed_values:
+        - LOCAL_NED
+    target_position_m:
+      type: array
+      length: 3
+      item_type: number
+      finite: true
+      required: true
+    position_tolerance_m:
+      type: number
+      finite: true
+      exclusive_minimum: 0
+      required: true
+    timeout_s:
+      type: number
+      finite: true
+      exclusive_minimum: 0
+      required: true
+
+  system_observed:
+    current_position:
+      source: telemetry
+      user_settable: false
+    vehicle_state:
+      source: telemetry
+      user_settable: false
+    airborne_state:
+      source: telemetry
+      user_settable: false
+    localization_valid:
+      source: telemetry
+      user_settable: false
+    connection_state:
+      source: telemetry
+      user_settable: false
+
+preconditions:
+  connected: true
+  airborne: true
+  localization_valid: true
+  target_valid: true
+
+output:
+  fields:
+    task_id: string
+    status: string
+    target_position: array[3]
+    final_position: array[3]
+    elapsed_time_s: number
+
+failure_codes:
+  - INVALID_INPUT
+  - PRECONDITION_FAILED
+  - UNSUPPORTED_FRAME
+  - LOCALIZATION_LOST
+  - TIMEOUT
+  - EXECUTION_ERROR
+  - TARGET_NOT_REACHED
+  - VERIFICATION_FAILED
+  - BOUNDARY_VIOLATION
+  - AGENT_JOB_FAILED
+
+acceptance:
+  authoritative_verifier: independent_python_verifier
+  checks:
+    position:
+      rule: position_error_m <= input.position_tolerance_m
+      metric: euclidean_3d
+    timeout:
+      rule: elapsed_time_s <= input.timeout_s
+    telemetry:
+      rule: telemetry_exists && timestamps_valid && localization_valid
+  overall_rule: all_checks_pass
+  forbidden_acceptance_source:
+    - module_output.status
+    - ai_agent_self_assessment
+
+evidence_contract:
+  required:
+    - raw_user_input.json
+    - input_validation.json
+    - input.json
+    - changed_files.json
+    - boundary_result.json
+    - unit_test_result.json
+    - telemetry.csv
+    - events.jsonl
+    - module_output.json
+    - verification.json
+    - metadata.json
+  telemetry_minimum_fields:
+    - timestamp
+    - x
+    - y
+    - z
+    - vx
+    - vy
+    - vz
+    - vehicle_state
+    - localization_valid
+
+runtime_validation:
+  required_fields_exist: true
+  numeric_types_valid: true
+  finite_values_only: true
+  supported_frame_only: true
+  positive_tolerance: true
+  positive_timeout: true
+  permitted_test_region:
+    source: config/experiment.yaml
+    note: >-
+      Numeric region bounds are intentionally not invented here because the
+      master plan requires a permitted test region but does not specify its
+      values. They must be explicitly defined and frozen before experiments.
+
+immutability:
+  after_experiment_start: true
+  ai_may_modify: false
+  recovery_agent_may_modify: false

@@ -1,0 +1,187 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$ROOT/uav.env" ]]; then set -a; source "$ROOT/uav.env"; set +a; fi
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+VENV_PY="$ROOT/.venv/bin/python"
+SIM_GAZEBO_IMAGE="px4io/px4-sitl-gazebo:v1.18.0-beta1-660-g61907962c9"
+
+usage() {
+  cat <<'EOF'
+Remote UAV deployment/control helper
+
+Usage:
+  ./uavctl install [--dev] [--pull-sim]
+  ./uavctl start [--gui|--headless] [--gazebo|--sih] [--port N]
+  ./uavctl doctor [--gui]
+  ./uavctl github-check
+  ./uavctl test [pytest args...]
+  ./uavctl storage status
+  ./uavctl storage cleanup [--apply]
+  ./uavctl storage pin <runs/.../attempt_NNN>
+  ./uavctl storage unpin <runs/.../attempt_NNN>
+  ./uavctl pull-sim
+  ./uavctl package [output-dir]
+  ./uavctl migrate-data [old-project-or-runs] [--apply]
+  ./uavctl version
+
+Examples:
+  ./uavctl install --pull-sim
+  ./uavctl start --gui
+  ./uavctl start --headless
+  ./uavctl storage cleanup          # dry-run
+  ./uavctl storage cleanup --apply  # remove only retention candidates
+EOF
+}
+
+need_python() {
+  if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
+    echo "ERROR: python3 is required." >&2
+    exit 2
+  fi
+}
+
+install_cmd() {
+  need_python
+  local dev=0 pull=0
+  while (($#)); do
+    case "$1" in
+      --dev) dev=1 ;;
+      --pull-sim) pull=1 ;;
+      -h|--help) echo "Usage: ./uavctl install [--dev] [--pull-sim]"; return 0 ;;
+      *) echo "ERROR: unknown install option: $1" >&2; return 2 ;;
+    esac
+    shift
+  done
+  if [[ ! -f "$ROOT/uav.env" ]]; then
+    cat > "$ROOT/uav.env" <<EOF
+# Created by uavctl. Runtime evidence is outside the source tree so upgrades
+# can replace the application directory without deleting user data.
+UAV_DATA_DIR="$HOME/.local/share/remote-uav"
+UAV_SIM_BACKEND="gazebo"
+UAV_GAZEBO_GUI="auto"
+UAV_PORT="8370"
+EOF
+    echo "Runtime configuration created: $ROOT/uav.env"
+  fi
+  mkdir -p "${UAV_DATA_DIR:-$HOME/.local/share/remote-uav}/runs"
+
+  if [[ ! -x "$VENV_PY" ]]; then
+    echo "[1/4] Creating isolated Python environment: $ROOT/.venv"
+    env -u PYTHONPATH PYTHONNOUSERSITE=1 "$PYTHON_BIN" -m venv "$ROOT/.venv"
+  else
+    echo "[1/4] Reusing Python environment: $ROOT/.venv"
+  fi
+  echo "[2/4] Installing Python package"
+  env -u PYTHONPATH PYTHONNOUSERSITE=1 \
+    "$VENV_PY" -m pip install --disable-pip-version-check --no-cache-dir --upgrade pip setuptools wheel
+  if [[ "$dev" == "1" ]]; then
+    env -u PYTHONPATH PYTHONNOUSERSITE=1 \
+      "$VENV_PY" -m pip install --disable-pip-version-check --no-cache-dir -e "$ROOT[dev]"
+  else
+    env -u PYTHONPATH PYTHONNOUSERSITE=1 \
+      "$VENV_PY" -m pip install --disable-pip-version-check --no-cache-dir -e "$ROOT"
+  fi
+  echo "  Verifying isolated Python dependencies"
+  env -u PYTHONPATH PYTHONNOUSERSITE=1 "$VENV_PY" -m pip check
+  echo "[3/4] Checking host runtime"
+  if command -v docker >/dev/null 2>&1; then
+    if docker info >/dev/null 2>&1; then
+      echo "  Docker: OK"
+    else
+      echo "  Docker: installed, daemon not reachable by this user" >&2
+    fi
+  else
+    echo "  Docker: MISSING (required for PX4 SITL/Gazebo)" >&2
+  fi
+  if command -v xauth >/dev/null 2>&1; then
+    echo "  xauth: OK"
+  else
+    echo "  xauth: missing (only required for Gazebo desktop GUI)" >&2
+  fi
+  if [[ "$pull" == "1" ]]; then
+    echo "[4/4] Pulling pinned Gazebo runtime"
+    docker pull "$SIM_GAZEBO_IMAGE"
+  else
+    echo "[4/4] Simulator image: deferred until first start (use --pull-sim to prefetch)"
+  fi
+  echo
+  echo "INSTALL=PASS"
+  echo "Next: ./uavctl doctor && ./uavctl start --gui"
+}
+
+start_cmd() {
+  local gui="${UAV_GAZEBO_GUI:-auto}" backend="${UAV_SIM_BACKEND:-gazebo}" port="${UAV_PORT:-8370}"
+  while (($#)); do
+    case "$1" in
+      --gui) gui=on ;;
+      --headless) gui=off ;;
+      --gazebo) backend=gazebo ;;
+      --sih) backend=sih; gui=off ;;
+      --port) shift; [[ $# -gt 0 ]] || { echo "ERROR: --port requires a value" >&2; return 2; }; port="$1" ;;
+      -h|--help) echo "Usage: ./uavctl start [--gui|--headless] [--gazebo|--sih] [--port N]"; return 0 ;;
+      *) echo "ERROR: unknown start option: $1" >&2; return 2 ;;
+    esac
+    shift
+  done
+  exec env UAV_GAZEBO_GUI="$gui" UAV_SIM_BACKEND="$backend" UAV_PORT="$port" "$ROOT/start-uav"
+}
+
+cmd="${1:-help}"
+[[ $# -gt 0 ]] && shift || true
+case "$cmd" in
+  install) install_cmd "$@" ;;
+  start) start_cmd "$@" ;;
+  github-check)
+    if [[ -x "$VENV_PY" ]]; then exec env -u PYTHONPATH "$VENV_PY" "$ROOT/tools/github_preflight.py" --project "$ROOT"; fi
+    exec python3 "$ROOT/tools/github_preflight.py" --project "$ROOT"
+    ;;
+  doctor)
+    require_gui=0
+    if [[ "${1:-}" == "--gui" ]]; then require_gui=1; shift; fi
+    if [[ $# -gt 0 ]]; then echo "ERROR: unknown doctor option: $1" >&2; exit 2; fi
+    if [[ "$require_gui" == "1" ]]; then exec "$ROOT/health-uav" --require-gazebo-gui; else exec "$ROOT/health-uav"; fi
+    ;;
+  test) exec "$ROOT/test-uav" "$@" ;;
+  storage) exec "$ROOT/storage-uav" "$@" ;;
+  pull-sim)
+    if ! command -v docker >/dev/null 2>&1; then echo "ERROR: docker is required" >&2; exit 2; fi
+    exec docker pull "$SIM_GAZEBO_IMAGE"
+    ;;
+  package)
+    out="${1:-$ROOT/dist}"
+    if [[ $# -gt 1 ]]; then echo "ERROR: package accepts at most one output directory" >&2; exit 2; fi
+    if [[ -x "$VENV_PY" ]]; then exec env -u PYTHONPATH "$VENV_PY" "$ROOT/tools/build_release.py" --project "$ROOT" --output-dir "$out"; fi
+    exec python3 "$ROOT/tools/build_release.py" --project "$ROOT" --output-dir "$out"
+    ;;
+  migrate-data)
+    source_arg=""
+    apply_arg=""
+    while (($#)); do
+      case "$1" in
+        --apply) apply_arg="--apply" ;;
+        -h|--help) echo "Usage: ./uavctl migrate-data [old-project-or-runs] [--apply]"; exit 0 ;;
+        --*) echo "ERROR: unknown migrate-data option: $1" >&2; exit 2 ;;
+        *) if [[ -n "$source_arg" ]]; then echo "ERROR: only one source path is allowed" >&2; exit 2; fi; source_arg="$1" ;;
+      esac
+      shift
+    done
+    args=(--project "$ROOT")
+    [[ -n "$source_arg" ]] && args+=(--source "$source_arg")
+    [[ -n "$apply_arg" ]] && args+=(--apply)
+    if [[ -x "$VENV_PY" ]]; then exec env -u PYTHONPATH "$VENV_PY" "$ROOT/tools/migrate_runtime_data.py" "${args[@]}"; fi
+    exec python3 "$ROOT/tools/migrate_runtime_data.py" "${args[@]}"
+    ;;
+  version)
+    need_python
+    if [[ -x "$VENV_PY" ]]; then PYTHON_BIN="$VENV_PY"; fi
+    "$PYTHON_BIN" - <<PY
+from pathlib import Path
+import tomllib
+p=Path(r'''$ROOT''')/'pyproject.toml'
+print(tomllib.loads(p.read_text())['project']['version'])
+PY
+    ;;
+  help|-h|--help) usage ;;
+  *) echo "ERROR: unknown command: $cmd" >&2; usage >&2; exit 2 ;;
+esac

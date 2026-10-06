@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$ROOT/uav.env" ]]; then set -a; source "$ROOT/uav.env"; set +a; fi
+PYTHON_BIN="${PYTHON_BIN:-$ROOT/.venv/bin/python}"
+if [[ ! -x "$PYTHON_BIN" ]]; then
+  echo "ERROR: project virtual environment is missing. Run: $ROOT/setup-uav" >&2
+  exit 2
+fi
+# ROS 2 installations commonly expose third-party pytest plugins through
+# PYTHONPATH.  Disable auto-loading so project tests stay isolated/reproducible.
+env \
+  -u PYTHONPATH \
+  -u UAV_DATA_DIR \
+  -u UAV_GAZEBO_GUI \
+  -u UAV_GAZEBO_SOFTWARE_RENDERING \
+  -u UAV_GZ_WORLD \
+  -u UAV_PORT \
+  -u UAV_SIM_BACKEND \
+  -u UAV_SIM_CONTAINER \
+  -u UAV_SIM_IMAGE \
+  -u UAV_SIM_MODEL \
+  PYTHONNOUSERSITE=1 \
+  PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+  "$PYTHON_BIN" -m pytest -q "$@"

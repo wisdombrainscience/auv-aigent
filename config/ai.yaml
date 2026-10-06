@@ -1,0 +1,5 @@
+provider: ollama
+model: qwen2.5-coder:3b
+runner: opencode
+endpoint: http://127.0.0.1:11434
+hardcode_model_in_framework: false
