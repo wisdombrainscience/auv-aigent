@@ -161,7 +161,7 @@ def main() -> int:
         "runtime_result=UNCHANGED "
         "verdict_authority=independent_mission_verifier "
         "bridge_persistence=none px4_instantiation=none raw_mavsdk=none "
-        "uav_run_link=reserved_for_U11_7 phase11=pending cp9=pending"
+        "uav_run_link=active_U11_7 phase11=READY cp9=READY"
     )
     return 0
 

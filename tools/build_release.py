@@ -24,10 +24,16 @@ EXCLUDE_SUFFIXES = {".pyc", ".pyo", ".rej", ".orig"}
 
 
 def version(project: Path) -> str:
-    import tomllib
+    try:
+        import tomllib
+    except ModuleNotFoundError:
+        import tomli as tomllib
 
-    return str(tomllib.loads((project / "pyproject.toml").read_text())["project"]["version"])
-
+    return str(
+        tomllib.loads(
+            (project / "pyproject.toml").read_text(encoding="utf-8")
+        )["project"]["version"]
+    )
 
 def sha256(path: Path) -> str:
     h = hashlib.sha256()
