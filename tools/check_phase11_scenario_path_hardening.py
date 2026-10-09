@@ -132,7 +132,7 @@ def main() -> int:
         "safe_segment=PASS traversal=DENY absolute=DENY nested=DENY "
         "runtime_construction=none evidence_creation=none "
         "u11_3=HARDENED u11_6=DENY_BEFORE_RUNTIME "
-        "phase11=pending cp9=pending"
+        "phase11=READY cp9=READY"
     )
     return 0
 

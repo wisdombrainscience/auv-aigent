@@ -9,7 +9,10 @@ requires-python = ">=3.10"
 dependencies = ["PyYAML>=6.0", "mavsdk==3.17.2"]
 
 [project.optional-dependencies]
-dev = ["pytest>=7,<10"]
+dev = [
+    "pytest>=7,<10",
+    "tomli>=2.0; python_version < '3.11'",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]

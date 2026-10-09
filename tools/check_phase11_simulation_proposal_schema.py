@@ -55,9 +55,9 @@ def main() -> int:
         "strict_json=PASS bounded=PASS unknown_mission=STRUCTURALLY_ACCEPTED "
         "project_mapping=active_U11_2 bridge_validation=active_U11_3 "
         "capability_allowlist=active_U11_4 mission_allowlist=active_U11_5 "
-        "runtime_invocation=active_U11_6 uav_run_link=reserved_for_U11_7 "
+        "runtime_invocation=active_U11_6 uav_run_link=active_U11_7 "
         "verdict_authority=independent_verifier persistence=none provider_calls=none "
-        "px4_access=none phase11=pending cp9=pending"
+        "px4_access=none phase11=READY cp9=READY"
     )
     return 0
 

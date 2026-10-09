@@ -123,9 +123,9 @@ def main() -> int:
         "runtime_policy=CANONICAL permitted_region=PASS out_of_region=FAIL_CLOSED "
         "authorization=capability_allowlist_active capability_allowlist=active_U11_4 "
         "mission_allowlist=active_U11_5 runtime_invocation=active_U11_6 "
-        "uav_run_link=reserved_for_U11_7 persistence=none provider_calls=none "
+        "uav_run_link=active_U11_7 persistence=none provider_calls=none "
         "px4_access=none verdict_authority=independent_verifier "
-        "phase11=pending cp9=pending"
+        "phase11=READY cp9=READY"
     )
     return 0
 

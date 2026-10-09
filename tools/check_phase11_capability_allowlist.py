@@ -134,9 +134,9 @@ def main() -> int:
         "takeoff=ALLOW nav=ALLOW return_home=ALLOW land=ALLOW "
         "unknown_capability=DENY bridge_validation=REQUIRED_U11_3 "
         "mission_allowlist=active_U11_5 runtime_invocation=active_U11_6 "
-        "uav_run_link=reserved_for_U11_7 persistence=none provider_calls=none "
+        "uav_run_link=active_U11_7 persistence=none provider_calls=none "
         "px4_access=none verdict_authority=independent_verifier "
-        "phase11=pending cp9=pending"
+        "phase11=READY cp9=READY"
     )
     return 0
 
