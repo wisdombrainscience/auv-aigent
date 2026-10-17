@@ -1,0 +1,224 @@
+COMP_CYCLE_START 1/30 target=[5.0, 0.0, -3.0]
+COMP_SIM_RETRY cycle=1 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=1 startup_attempt=2/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=1 startup_attempt=3/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_CYCLE_ERROR cycle=1 RuntimeError: simulator/flight readiness failed after 3 attempts: TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 2/30 target=[0.0, 5.0, -3.0]
+COMP_SIM_RETRY cycle=2 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': False, 'health_local_position_ok': False, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=2 startup_attempt=2 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.0019720974378287792, -0.020418604835867882, 0.005775481462478638], 'stable_s': 2.008}
+COMP_STEP cycle=2 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=2 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=2 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=2 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 3/30 target=[-5.0, 0.0, -3.0]
+COMP_SIM_RETRY cycle=3 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=3 startup_attempt=2 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.0034327958710491657, 0.014333163388073444, 0.07020403444766998], 'stable_s': 2.009}
+COMP_STEP cycle=3 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=3 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=3 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=3 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 4/30 target=[0.0, -5.0, -3.0]
+COMP_SIM_RETRY cycle=4 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': False, 'health_local_position_ok': False, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=4 startup_attempt=2/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=4 startup_attempt=3 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.011447342112660408, 0.011105004698038101, 0.008134663105010986], 'stable_s': 2.008}
+COMP_STEP cycle=4 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=4 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=4 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=4 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 5/30 target=[5.0, 0.0, -3.0]
+COMP_SIM_RETRY cycle=5 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=5 startup_attempt=2/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=5 startup_attempt=3/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': False, 'health_local_position_ok': False, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_CYCLE_ERROR cycle=5 RuntimeError: simulator/flight readiness failed after 3 attempts: TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': False, 'health_local_position_ok': False, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 6/30 target=[0.0, 5.0, -3.0]
+COMP_SIM_READY cycle=6 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.0065927025862038136, -0.03527579829096794, 0.014447018504142761], 'stable_s': 2.009}
+COMP_STEP cycle=6 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=6 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=6 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=6 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 7/30 target=[-5.0, 0.0, -3.0]
+COMP_SIM_RETRY cycle=7 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=7 startup_attempt=2/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=7 startup_attempt=3 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.025698160752654076, -0.025351835414767265, 0.001777738332748413], 'stable_s': 2.009}
+COMP_STEP cycle=7 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=7 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=7 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=7 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 8/30 target=[0.0, -5.0, -3.0]
+COMP_SIM_READY cycle=8 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.005918542388826609, -0.006286310963332653, 0.025811821222305298], 'stable_s': 2.008}
+COMP_STEP cycle=8 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=8 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=8 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=8 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 9/30 target=[5.0, 0.0, -3.0]
+COMP_SIM_RETRY cycle=9 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=9 startup_attempt=2 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.003068524179980159, -0.012272733263671398, 0.05519220232963562], 'stable_s': 2.008}
+COMP_STEP cycle=9 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=9 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=9 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=9 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 10/30 target=[0.0, 5.0, -3.0]
+COMP_SIM_RETRY cycle=10 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=10 startup_attempt=2/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=10 startup_attempt=3/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_CYCLE_ERROR cycle=10 RuntimeError: simulator/flight readiness failed after 3 attempts: TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 11/30 target=[-5.0, 0.0, -3.0]
+COMP_SIM_READY cycle=11 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.07777100801467896, -0.026635179296135902, -0.006594106554985046], 'stable_s': 2.008}
+COMP_STEP cycle=11 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=11 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=11 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=11 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 12/30 target=[0.0, -5.0, -3.0]
+COMP_SIM_RETRY cycle=12 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=12 startup_attempt=2 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.018392814323306084, 0.017987225204706192, -0.0037449002265930176], 'stable_s': 2.008}
+COMP_STEP cycle=12 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=12 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=12 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=12 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 13/30 target=[5.0, 0.0, -3.0]
+COMP_SIM_RETRY cycle=13 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': False, 'health_local_position_ok': False, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=13 startup_attempt=2 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.010715515352785587, 0.02319543994963169, -0.04468899965286255], 'stable_s': 2.009}
+COMP_STEP cycle=13 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=13 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=13 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=13 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 14/30 target=[0.0, 5.0, -3.0]
+COMP_SIM_RETRY cycle=14 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=14 startup_attempt=2 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.03223976492881775, -0.012813362292945385, -0.0021408796310424805], 'stable_s': 2.008}
+COMP_STEP cycle=14 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=14 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=14 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=14 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 15/30 target=[-5.0, 0.0, -3.0]
+COMP_SIM_READY cycle=15 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.03352689370512962, 0.0014249798841774464, 0.027629032731056213], 'stable_s': 2.007}
+COMP_STEP cycle=15 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=15 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=15 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=15 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 16/30 target=[0.0, -5.0, -3.0]
+COMP_SIM_READY cycle=16 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.01027915719896555, -0.006109156645834446, 0.009262636303901672], 'stable_s': 2.007}
+COMP_STEP cycle=16 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=16 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=16 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=16 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 17/30 target=[5.0, 0.0, -3.0]
+COMP_SIM_READY cycle=17 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.018977604806423187, -0.0050424085929989815, 0.024314716458320618], 'stable_s': 2.009}
+COMP_STEP cycle=17 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=17 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=17 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=17 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 18/30 target=[0.0, 5.0, -3.0]
+COMP_SIM_RETRY cycle=18 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=18 startup_attempt=2/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=18 startup_attempt=3/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_CYCLE_ERROR cycle=18 RuntimeError: simulator/flight readiness failed after 3 attempts: TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 19/30 target=[-5.0, 0.0, -3.0]
+COMP_SIM_READY cycle=19 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.010877469554543495, 0.0014277510344982147, 0.018710017204284668], 'stable_s': 2.009}
+COMP_STEP cycle=19 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=19 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=19 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=19 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 20/30 target=[0.0, -5.0, -3.0]
+COMP_SIM_READY cycle=20 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.0012811152264475822, 0.04710378497838974, -0.02001476287841797], 'stable_s': 2.007}
+COMP_STEP cycle=20 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=20 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=20 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=20 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 21/30 target=[5.0, 0.0, -3.0]
+COMP_SIM_READY cycle=21 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.0166520643979311, -0.0238666795194149, 0.016762003302574158], 'stable_s': 2.008}
+COMP_STEP cycle=21 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=21 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=21 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=21 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 22/30 target=[0.0, 5.0, -3.0]
+COMP_SIM_READY cycle=22 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.017453039065003395, 0.02267576940357685, 0.00453418493270874], 'stable_s': 2.008}
+COMP_STEP cycle=22 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=22 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=22 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=22 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 23/30 target=[-5.0, 0.0, -3.0]
+COMP_SIM_RETRY cycle=23 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=23 startup_attempt=2/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=23 startup_attempt=3 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.05146032199263573, 0.009917555376887321, -0.06260870397090912], 'stable_s': 2.008}
+COMP_STEP cycle=23 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=23 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=23 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=23 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 24/30 target=[0.0, -5.0, -3.0]
+COMP_SIM_READY cycle=24 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.01680813916027546, -0.0007539321086369455, 0.04415486752986908], 'stable_s': 2.009}
+COMP_STEP cycle=24 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=24 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=24 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=24 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 25/30 target=[5.0, 0.0, -3.0]
+COMP_SIM_RETRY cycle=25 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=25 startup_attempt=2 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.01702651008963585, -0.009128757752478123, -0.035400524735450745], 'stable_s': 2.008}
+COMP_STEP cycle=25 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=25 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=25 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=25 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 26/30 target=[0.0, 5.0, -3.0]
+COMP_SIM_RETRY cycle=26 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=26 startup_attempt=2 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.030753107741475105, -0.012095163576304913, -0.03805585205554962], 'stable_s': 2.008}
+COMP_STEP cycle=26 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=26 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=26 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=26 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 27/30 target=[-5.0, 0.0, -3.0]
+COMP_SIM_READY cycle=27 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.05132148414850235, 0.027243435382843018, -0.035367026925086975], 'stable_s': 2.009}
+COMP_STEP cycle=27 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=27 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=27 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=27 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 28/30 target=[0.0, -5.0, -3.0]
+COMP_SIM_READY cycle=28 startup_attempt=1 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [0.027216974645853043, 0.004242324735969305, -0.04186387360095978], 'stable_s': 2.008}
+COMP_STEP cycle=28 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=28 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=28 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=28 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 29/30 target=[5.0, 0.0, -3.0]
+COMP_SIM_RETRY cycle=29 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': True, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_READY cycle=29 startup_attempt=2 state={'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': True, 'health_home_position_ok': True, 'health_is_armable': True, 'readiness_source': 'is_armable', 'ready': True, 'position_m': [-0.007918846793472767, -0.02026914805173874, -0.018865764141082764], 'stable_s': 2.008}
+COMP_STEP cycle=29 capability=TAKEOFF-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=29 capability=NAV-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=29 capability=RETURN-HOME-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_STEP cycle=29 capability=LAND-001 module=completed verifier=PASS class=AGREE_PASS
+COMP_RESTART_COOLDOWN seconds=3
+COMP_CYCLE_START 30/30 target=[0.0, 5.0, -3.0]
+COMP_SIM_RETRY cycle=30 startup_attempt=1/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=30 startup_attempt=2/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_SIM_RETRY cycle=30 startup_attempt=3/3 error=TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMP_CYCLE_ERROR cycle=30 RuntimeError: simulator/flight readiness failed after 3 attempts: TimeoutError: flight readiness not reached before 60s: {'connected': True, 'localization_valid': True, 'health_local_position_ok': True, 'health_global_position_ok': False, 'health_home_position_ok': False, 'health_is_armable': False, 'readiness_source': 'is_armable', 'ready': False}
+COMPARATIVE_REPORT=/home/tt36/UAV/remote_UAV_evaluation_v1_1/reports/evaluation/comparative_20261017T113725Z
+COMPARATIVE_SUMMARY Capability=TAKEOFF-001 N=25 Agree-P=25 Agree-F=0 Silent fail.=0 V-only lenient=0
+COMPARATIVE_SUMMARY Capability=NAV-001 N=25 Agree-P=25 Agree-F=0 Silent fail.=0 V-only lenient=0
+COMPARATIVE_SUMMARY Capability=RETURN-HOME-001 N=25 Agree-P=25 Agree-F=0 Silent fail.=0 V-only lenient=0
+COMPARATIVE_SUMMARY Capability=LAND-001 N=25 Agree-P=25 Agree-F=0 Silent fail.=0 V-only lenient=0

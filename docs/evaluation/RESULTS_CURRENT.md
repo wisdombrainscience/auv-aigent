@@ -73,3 +73,19 @@ An earlier setup path could report simulation running/MAVSDK connected while PX4
 
 - Reliability: n=30 for each of five conditions
 - Longitudinal: >=4 h, checkpoints at 0/60/120/240 min
+
+---
+
+## Git review branch reproducibility
+
+The frozen experimental working copy recorded `3028 passed`.
+
+The isolated review branch `evaluation/v1.6.1-verification`, reconstructed from
+committed project baseline `1f55ba713826578bd51a3d7d474b85a6c3a64f55`
+without the uncommitted Phase 13 workspace, independently produced:
+
+- targeted evaluation/simulation regression: `21 passed`
+- full branch regression: `2834 passed in 101.29 s`
+
+These values refer to different source scopes and are intentionally reported
+separately.
