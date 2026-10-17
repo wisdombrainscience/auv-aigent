@@ -1,0 +1,12 @@
+PROJECT /home/tt36/UAV/remote_UAV_evaluation_v1_1
+RUNS_ROOT /home/tt36/UAV/remote_uav_official_v1_6_1/runs
+PASS  Runtime data directory — /home/tt36/UAV/remote_uav_official_v1_6_1/runs
+PASS  Python — 3.12.3
+PACKAGE_VERSION 1.0.1
+PASS  Python dependencies — yaml + mavsdk
+PASS  Docker daemon
+PASS  Simulation backend — gazebo / gz_x500
+SIM_IMAGE px4io/px4-sitl-gazebo:v1.18.0-beta1-660-g61907962c9
+PASS  Simulator image — installed
+PASS  Patch residue — none
+HEALTHCHECK=PASS failures=0

@@ -80,6 +80,15 @@ class SimulationSupervisor:
         self._gui_display: str | None = None
         self._log_handle: Any | None = None
         self._simulator_log_path = runtime_root(self.project) / "simulator.log"
+        # The original attached ``docker run`` stdout stream can be extremely
+        # verbose under Gazebo and can grow simulator.log by hundreds of MB per
+        # minute.  Keep legacy behaviour by default, but allow evaluation and
+        # long-running deployments to rely on Docker's already-configured
+        # max-size/max-file log rotation instead of duplicating the full stream
+        # into the runtime data tree.
+        self._host_log_mode = str(os.environ.get("UAV_SIM_HOST_LOG_MODE", "file")).strip().lower()
+        if self._host_log_mode not in {"file", "docker"}:
+            self._host_log_mode = "file"
         self._validate_configuration()
 
     def _validate_configuration(self) -> None:
@@ -102,6 +111,15 @@ class SimulationSupervisor:
             raise ValueError("SIH backend cannot use a gz_* model")
 
     def _read_simulator_log_tail(self, max_lines: int = 60) -> str:
+        if self._host_log_mode == "docker":
+            result = subprocess.run(
+                self._docker("logs", "--tail", str(int(max_lines)), self.config.container_name),
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            text = (result.stdout or "") + (result.stderr or "")
+            return "\n".join(text.splitlines()[-max_lines:])
         try:
             if self._log_handle is not None:
                 self._log_handle.flush()
@@ -379,6 +397,7 @@ class SimulationSupervisor:
             "model": self.config.model,
             "world": self.config.world,
             "status": "RUNNING" if self.is_running() else "STOPPED",
+            "host_log_mode": self._host_log_mode,
             "gazebo_gui": self.gazebo_gui_status(),
         }
 
@@ -429,13 +448,23 @@ class SimulationSupervisor:
 
         cmd = self._container_run_command(pose, gui_args, gui_setup)
         self._simulator_log_path.parent.mkdir(parents=True, exist_ok=True)
-        self._log_handle = self._simulator_log_path.open("w", encoding="utf-8")
+        if self._host_log_mode == "docker":
+            # Docker already rotates its container log at 10 MiB x 3 files.
+            # Do not mirror the same high-volume stream into runs/.runtime.
+            self._simulator_log_path.unlink(missing_ok=True)
+            self._log_handle = None
+            stdout_target: Any = subprocess.DEVNULL
+            stderr_target: Any = subprocess.DEVNULL
+        else:
+            self._log_handle = self._simulator_log_path.open("w", encoding="utf-8")
+            stdout_target = self._log_handle
+            stderr_target = subprocess.STDOUT
         try:
             self._process = subprocess.Popen(
                 cmd,
                 cwd=self.project,
-                stdout=self._log_handle,
-                stderr=subprocess.STDOUT,
+                stdout=stdout_target,
+                stderr=stderr_target,
                 text=True,
                 start_new_session=True,
             )
