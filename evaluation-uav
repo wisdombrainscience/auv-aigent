@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT"
+# Evaluation must use the same runtime configuration as start-uav/uavctl.
+# Without this, direct campaigns silently fall back to project-local runs while
+# web/longitudinal campaigns use UAV_DATA_DIR from uav.env.
+if [[ -f "$ROOT/uav.env" ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source "$ROOT/uav.env"
+  set +a
+fi
+if [[ -x "$ROOT/.venv/bin/python" ]]; then PY="$ROOT/.venv/bin/python"; else PY="${PYTHON_BIN:-python3}"; fi
+cmd="${1:-}"
+if [[ -z "$cmd" ]]; then
+  echo "Usage: ./evaluation-uav {comparative|reliability|longitudinal|aggregate} [args...]" >&2
+  exit 2
+fi
+shift
+case "$cmd" in
+  comparative) exec "$PY" -m evaluation.run_comparative "$@" ;;
+  reliability) exec "$PY" -m evaluation.run_reliability "$@" ;;
+  longitudinal) exec "$PY" -m evaluation.run_longitudinal "$@" ;;
+  aggregate) exec "$PY" -m evaluation.aggregate "$@" ;;
+  *) echo "Unknown evaluation command: $cmd" >&2; exit 2 ;;
+esac
