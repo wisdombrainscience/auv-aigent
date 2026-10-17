@@ -1,0 +1,10 @@
+2026-10-17T18:16:30+07:00
+Linux tt 7.0.0-38-generic #38~24.04.4-Ubuntu SMP PREEMPT_DYNAMIC Mon Sep 14 16:37:11 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+Python 3.12.3
+Docker version 29.8.0, build 88096ef
+
+UAV_DATA_DIR="$HOME/UAV/remote_uav_official_v1_6_1"
+UAV_SIM_BACKEND="gazebo"
+UAV_GAZEBO_GUI="off"
+UAV_PORT="8470"
+UAV_SIM_HOST_LOG_MODE="docker"
