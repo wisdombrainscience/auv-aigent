@@ -98,3 +98,18 @@ When sending results back for report writing, zip the entire `reports/evaluation
 - Comparative startup tolerates a transient slow MAVSDK `position` stream after simulator restart and retries within the overall readiness deadline.
 - Longitudinal auto-starts `start-uav` on the requested localhost port when no console is already listening. Use `--no-auto-start-console` only when you intentionally manage the console yourself.
 - Always run a short longitudinal smoke such as `--hours 0.03` before the 4 h campaign.
+
+## Fresh-machine installation for reviewers
+
+Start with `docs/evaluation/START_HERE.md`.
+
+After cloning the evaluation branch:
+
+```bash
+./tools/bootstrap_evaluation_machine.sh
+./tools/check_evaluation_ready.sh
+./tools/run_evaluation_smoke.sh
+```
+
+Complete installation and campaign instructions are in
+`docs/evaluation/LEADER_SETUP_AND_RUN.md`.
