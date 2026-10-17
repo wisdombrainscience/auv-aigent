@@ -769,3 +769,21 @@ Frozen source/environment metadata:
 ```text
 docs/evaluation/baseline_v1_6_1/
 ```
+
+## Leader 4 h / 8 h / 10 h campaign
+
+The leader-requested extended longitudinal procedure is documented separately in:
+
+```text
+docs/evaluation/LEADER_LONGITUDINAL_4_8_10H_RUNBOOK.md
+docs/evaluation/LONGITUDINAL_4_8_10H_PROTOCOL.md
+```
+
+Recommended continuous campaign:
+
+```bash
+./tools/run_longitudinal_campaign.sh --hours 10
+```
+
+Interpret checkpoints at 4 h, 8 h, and 10 h from the same continuous run. Do not restart
+the system at the intermediate checkpoints.

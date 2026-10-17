@@ -19,3 +19,7 @@
 - [ ] enough free disk before 30-cycle / 4 h campaigns
 - [ ] failures preserved
 - [ ] replication data kept separate from the historical primary campaign
+
+- [ ] 10-hour continuous longitudinal campaign uses `./tools/run_longitudinal_campaign.sh --hours 10`
+- [ ] 4 h / 8 h / 10 h checkpoints belong to the same continuous run unless independent replications are explicitly requested
+- [ ] early termination is retained as incomplete evidence and is not patched by appending another run

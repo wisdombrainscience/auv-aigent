@@ -26,3 +26,18 @@ Important rules:
 - Do not change thresholds after seeing results.
 - Do not silently replace failed samples with successful reruns.
 - Do not merge the Draft PR into `main` merely to run the evaluation branch.
+
+## Leader-requested 4 h / 8 h / 10 h longitudinal campaign
+
+For the continuous 10-hour campaign and the mandatory 4 h / 8 h / 10 h interpretation
+checkpoints, read:
+
+```text
+docs/evaluation/LEADER_LONGITUDINAL_4_8_10H_RUNBOOK.md
+```
+
+Run with:
+
+```bash
+./tools/run_longitudinal_campaign.sh --hours 10
+```

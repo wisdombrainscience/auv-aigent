@@ -113,3 +113,14 @@ After cloning the evaluation branch:
 
 Complete installation and campaign instructions are in
 `docs/evaluation/LEADER_SETUP_AND_RUN.md`.
+
+### Extended leader longitudinal campaign
+
+For a continuous 10-hour longitudinal campaign with leader checkpoints at 4 h, 8 h, and
+10 h:
+
+```bash
+./tools/run_longitudinal_campaign.sh --hours 10
+```
+
+See `docs/evaluation/LEADER_LONGITUDINAL_4_8_10H_RUNBOOK.md`.
